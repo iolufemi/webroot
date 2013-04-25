@@ -11,7 +11,7 @@ include('../system/smarty/Smarty.class.php');
 
 /**
  * Call new smarty object
- * /
+ * */
 $smarty = new Smarty;
 
 /**
