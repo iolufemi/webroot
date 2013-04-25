@@ -28,5 +28,4 @@ include('controller/login.php');
  * Include the footer
  * */
 include('controller/footer.php');
-
 ?>
