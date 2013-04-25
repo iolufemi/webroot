@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.12, created on 2013-04-20 21:54:02
+<?php /* Smarty version Smarty-3.1.12, created on 2013-04-25 21:01:24
          compiled from ".\templates\login.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:3115151730be2d828d1-65494530%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0390f83576cc40b989c12a7362afcba143967e43' => 
     array (
       0 => '.\\templates\\login.tpl',
-      1 => 1366494839,
+      1 => 1366923675,
       2 => 'file',
     ),
   ),
@@ -23,17 +23,26 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <div class="box round center">
                 <h2>Login</h2>
                 <div class="block">
-                   <form>
+                   <form method="post" id="adminLoginForm" name="adminLoginFrom">
                     <table class="form">
                         <tbody>
                         
                         <tr>
                             <td>
                                 <label>
-                                    Large Input</label>
+                                    Username:</label>
                             </td>
                             <td>
-                                <input type="text" class="large">
+                                <input type="text" class="large" name="username" id="username" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" class="large" name="password" id="password" />
                             </td>
                         </tr>
                         <tr>
@@ -41,7 +50,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                                 &nbsp;
                             </td>
                             <td>
-                                <button class="btn-icon btn-blue btn-arrow-right"><span></span>Login</button>
+                                <button class="btn-icon btn-blue btn-arrow-right" name="adminLoginSubmit" id="adminLoginSubmit"><span></span>Login</button>
                             </td>
                         </tr>
                     </tbody></table>

@@ -63,6 +63,23 @@ function getUserid(){
     return $this->userid;
 }
 
+
+ 
+/**
+ * toLetLagos::checkLogin()
+ * 
+ * Check if a any user is already logged in
+ * 
+ * @return boolean
+ */
+function checkLogin(){
+    if ($this->userid <= 0){
+        return 0;
+    }else{
+        return 1;
+    }
+}
+
 /**
  * toLetLagos::getUseridFUN()
  * returns userid from for a given email
@@ -346,6 +363,107 @@ function signOut(){
 }
 
 /**
+ * toLetLagos::notification()
+ * 
+ * This function displays notifications
+ * insert the message to be displayed and the type of message to be displayed.
+ * message type can be info, success, error, warning. the default is info.
+ * 
+ * @param mixed $message
+ * @param mixed $type
+ * @return boolean
+ */
+function notification($message, $type='info'){
+    switch($type){
+        case 'info':
+        $header = "Information";
+        $class = "info";
+        break;
+        
+        case 'success':
+        $header = "Success!";
+        $class = "success";
+        break;
+        
+        case 'warning':
+        $header = "Warning!";
+        $class = "warning";
+        break;
+        
+        case 'error':
+        $header = "Error!";
+        $class = "error";
+        break;
+        
+        default:
+        $header = "Information";
+        $class = "info";
+        break;
+        
+    }
+    
+    echo('<div class="message '.$class.'">
+                                <h5>'.$header.'</h5>
+                                <p>
+                                    '.$message.'
+                                </p>
+                            </div>');
+                            return 1;
+}
+
+/**
+ * toLetLagos::warning()
+ * 
+ * Displays a warning
+ * 
+ * @param mixed $message
+ * @return boolean
+ */
+function warning($message){
+    $this->notification($message,"warning");
+    return 1;
+}
+
+/**
+ * toLetLagos::info()
+ * 
+ * Displays an information
+ * 
+ * @param mixed $message
+ * @return boolean
+ */
+function info($message){
+    $this->notification($message,"info");
+    return 1;
+}
+
+/**
+ * toLetLagos::success()
+ * 
+ * Displays a success message
+ * 
+ * @param mixed $message
+ * @return boolean
+ */
+function success($message){
+    $this->notification($message,"success");
+    return 1;
+}
+
+/**
+ * toLetLagos::error()
+ * 
+ * Displays an error
+ * 
+ * @param mixed $message
+ * @return
+ */
+function error($message){
+    $this->notification($message,"error");
+    return 1;
+}
+
+/**
  * toLetLagos::logOut()
  * Alias for toLetLagos::signOut()
  * Distroys all session variables
@@ -355,21 +473,7 @@ function logOut(){
     toLetLagos::signOut();
 }
 
-/**
- * toLetLagos::notification()
- * 
- * @param mixed $message
- * @param mixed $status
- * @return void
- */
-function notification($message,$status){
-    if($status == 0){
-        $color = "#FFD1B3";
-    }else{
-        $color = "#BCFFB3";
-    }
-   echo ('<div style="background-color: '.$color.'; width: 100%; border-bottom: gray solid 1px; padding: 2px; text-align: center;">'.$message.'</div>');
-}
+
 
 function reportUser($userid,$reason){
     $query = "UPDATE `users` SET `report` = 'report + 1' WHERE `id` = '".$userid."';
