@@ -179,6 +179,8 @@ function post($houseType,$houseDescription,$price,$totalPrice,$houseAddress,$loc
     
 }
 
+
+
 /**
  * toLetLagos::viewAllHouses()
  * returns all propertys as an array
@@ -598,5 +600,7 @@ function veiwAllUsers(){
 
 
 }
+
+
 
 ?>
