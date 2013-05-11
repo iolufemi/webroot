@@ -81,6 +81,7 @@ function admin_login_submit(){
         $data['alert_message'] = 'Stop! Wrong Username or Password';
         $this->load->module('template');
         $views = array('admin_login');
+        $data['pagetitle'] = "Error, Please Try Again | Admin Login";
         $this->template->buildview($views,$data);
         
     }
@@ -93,17 +94,19 @@ function get_form_data(){
 }
 
 function admin_login(){
+    $data['pagetitle'] = "Admin Login";
     $this->load->module('template');
     $views = array('admin_login');
-    $this->template->buildview($views);
+    $this->template->buildview($views,$data);
 }
 
 
 
 function register(){
+    $data['pagetitle'] = "Register";
     $this->load->module('template');
     $views = array('registration_form');
-    $this->template->buildview($views);
+    $this->template->buildview($views,$data);
 }
 // TODO: I stopped here and will continue later.
  // TODO: Do the validation

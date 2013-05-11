@@ -33,7 +33,7 @@
         
          ?>
          <!-- TODO: Finish Building this form and the validation. -->
-                    <form action="<?php echo base_url('users/registration_submit'); ?>" method="post" name="registration">
+                    <form action="<?php echo base_url('users/registration_submit'); ?>" method="post" name="registration" id="register">
                     <table class="form">
                         <tr>
                             <td class="col1">
@@ -50,7 +50,8 @@
                                     Password: </label>
                             </td>
                             <td class="col2">
-                                <input type="password" class="large" name="password" value="<?php echo (@$password); ?>" />
+                                <input type="password" class="large" name="password" id="password" value="<?php echo (@$password); ?>" />
+                                <input type="password" class="large" name="password2" value="<?php echo (@$password2); ?>"  />
                             </td>
                         </tr>
                         <tr>
@@ -58,7 +59,7 @@
                                 &nbsp;
                             </td>
                             <td class="col2">
-                                <button class="btn" onclick="$(this).submit()">Login</button>
+                                <button class="btn" onclick="$(this).submit()" id="submit">Login</button>
                             </td>
                         </tr>
                         <tr>
@@ -76,3 +77,22 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+        $('form#register').validate(
+        {
+            rules:{
+                username: {
+                            required:true
+                            },
+                  password: {
+                            required:true,
+                            minlength:6
+                            },
+                  password2: {
+                            required:true,
+                            equalTo:"#password"
+                            }
+                  }
+        }
+        );        
+        </script>
