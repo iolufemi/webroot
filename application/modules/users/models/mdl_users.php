@@ -2,6 +2,7 @@
 
 class Mdl_users extends CI_Model {
 
+// to make my job easier, let me copy copy this here
 function __construct() {
 parent::__construct();
 }

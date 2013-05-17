@@ -3,7 +3,7 @@
 class Users extends MX_Controller
 {
     
-
+// To make my job easier, let me copy copy this.
 function __construct() {
 parent::__construct();
 }
@@ -65,6 +65,7 @@ $query = $this->mdl_users->_custom_query($mysql_query);
 return $query;
 }
 
+// let's process the submited form data
 function admin_login_submit(){
     $data = $this->get_form_data();
     $username = $data['username'];
@@ -88,11 +89,13 @@ function admin_login_submit(){
     
 }
 
+// get all data in the form fields
 function get_form_data(){
     $data = $this->input->post();
     return $data;
 }
 
+//display the admin login page
 function admin_login(){
     $data['pagetitle'] = "Admin Login";
     $this->load->module('template');
@@ -101,7 +104,7 @@ function admin_login(){
 }
 
 
-
+// display the registration page
 function register(){
     $data['pagetitle'] = "Register";
     $this->load->module('template');
@@ -110,8 +113,12 @@ function register(){
 }
 // TODO: I stopped here and will continue later.
  // TODO: Do the validation
+ // process the submited registration details
 function registration_submit(){
-    $this->form_validation->set_rules('title', 'Title', 'required|min_length[3]|xss_clean');
+    $data = $this->get_form_data();
+    unset($data['password2']);
+    $this->_insert($data);
+    echo "done";
 }
 
 }

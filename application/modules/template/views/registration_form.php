@@ -56,10 +56,72 @@
                         </tr>
                         <tr>
                             <td class="col1">
-                                &nbsp;
+                                <label>
+                                    Firstname: </label>
                             </td>
                             <td class="col2">
-                                <button class="btn" onclick="$(this).submit()" id="submit">Login</button>
+                                <input type="text" class="large" name="firstname" value="<?php echo(@$firstname); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Lastname: </label>
+                            </td>
+                            <td class="col2">
+                                <input type="text" class="large" name="lastname" value="<?php echo(@$lastname); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Sex: </label>
+                            </td>
+                            <td class="col2">
+                                Male <input type="radio" name="sex" value="male" /> Female <input type="radio" name="sex" value="female" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Email: </label>
+                            </td>
+                            <td class="col2">
+                                <input type="text" class="large" name="email" value="<?php echo(@$email); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Phone Number: </label>
+                            </td>
+                            <td class="col2">
+                                <input type="text" class="large" name="phone" value="<?php echo(@$phone); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Address: </label>
+                            </td>
+                            <td class="col2">
+                                <textarea class="large" name="address" style="width: 85%; height: 100px;" >
+                                <?php echo(@$address); ?>
+                                </textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Role: </label>
+                            </td>
+                            <td class="col2">
+                                <select size="1">
+                                	<option value="3">Tenant</option>
+                                	<option value="2">Agent</option>
+                                	<option value="4">Landlord</option>
+                                	<option value="1">Administrator</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -67,10 +129,10 @@
                                 &nbsp;
                             </td>
                             <td class="col2">
-                                <?php echo form_checkbox("rememberme","rememberme","FALSE"); ?> <label>Remember Me.</label> | <?php echo anchor("users/register","Register Now","title=Register") ?>
+                                <button class="btn" onclick="$(this).submit()" id="submit">Register</button>
                             </td>
                         </tr>
-                        
+                                       
                         
                     </table>
                     </form>

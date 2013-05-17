@@ -2,21 +2,9 @@
 
 class Template extends MX_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
+    /**
+     * i use This function to render the needed template views for a page
+     * */ 
   function buildview($views,$data = ""){
     $this->admin_header($data);
     foreach($views as $view){
@@ -25,24 +13,24 @@ class Template extends MX_Controller {
     $this->admin_footer($data);
     return true;
 }   
-  
+  //load the admin homepage view
 	public function admin_home($data = "")
 	{
 		$this->load->view('admin_home');
 	}
-    
+    //load the admin login view
     function admin_login($data = ""){
         $this->load->view('admin_login',$data);
     }
-    
+    //load the admin header view
     function admin_header($data = ""){
         $this->load->view('admin_header',$data);
     }
-    
+    //load the admin footer view
     function admin_footer($data = ""){
         $this->load->view('admin_footer',$data);
     }
-    
+    //load the registration form view
     function registration_form($data = ""){
         $this->load->view('registration_form',$data);
     }
