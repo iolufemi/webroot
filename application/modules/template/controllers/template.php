@@ -16,25 +16,28 @@ class Template extends MX_Controller {
   //load the admin homepage view
 	public function admin_home($data = "")
 	{
-		$this->load->view('admin_home');
+		$this->load->view('admin/users/admin_home');
 	}
     //load the admin login view
     function admin_login($data = ""){
-        $this->load->view('admin_login',$data);
+        $this->load->view('admin/users/admin_login',$data);
     }
     //load the admin header view
     function admin_header($data = ""){
-        $this->load->view('admin_header',$data);
+        $this->load->view('admin/users/admin_header',$data);
     }
     //load the admin footer view
     function admin_footer($data = ""){
-        $this->load->view('admin_footer',$data);
+        $this->load->view('admin/users/admin_footer',$data);
     }
     //load the registration form view
     function registration_form($data = ""){
-        $this->load->view('registration_form',$data);
+        $this->load->view('admin/users/registration_form',$data);
     }
-}
+    
+    function addroles($data = ""){
+        $this->load->view('admin/roles/add-roles',$data);
+        }
+    }
 
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+?>
