@@ -78,12 +78,16 @@ function read($id){
 
 //CRUD Read All
 function read_all(){
-    $data = $this->get('id');
-    return $data;
+    $result = $this->get('id');
+    return $result;
 }
 
 function read_all_ui(){
     
+    $data['query'] = $this->read_all();
+    $data['pagetitle'] = 'Roles';
+    $this->load->module('template');
+    $this->template->buildview(array('roles'),$data);
 }
 
 // get all data in the form fields
@@ -95,6 +99,7 @@ function get_form_data(){
 //CRUD create processor
 function submit(){
     $data = $this->get_form_data();
+    if(empty($data['id']) || !isset($data['id'])){
     //lets check if the role already exists
     $check = $this->count_where('role',$data['role']);
     if($check > 0){
@@ -104,19 +109,32 @@ function submit(){
         $this->load->module('template');
         $this->template->buildview(array('addroles'),$data);
     }else{
-        $this->_insert($role);
-        unset($data['role']);
-        $data['alert_type'] = 'success';
-        $data['alert_message'] = 'Role Added';
-        $data['pagetitle'] = 'Success! Role Added';
-        $this->load->module('template');
-        $this->template->buildview(array('addroles'),$data);
+        $this->_insert($data);
+        unset($data);
+        redirect('roles/read_all_ui');
+    }
+    
+    }else{
+        if(isset($data['id'])){
+        $this->_update($data['id'],$data);
+        unset($data);
+        redirect('roles/read_all_ui');
+        }
     }
     
 }
 
 //CRUD Create
 function create(){
+    $id = $this->uri->segment(3);
+    if(isset($id) || $id != "" || is_numeric($is)){
+       $query = $this->get_where($id);
+       foreach($query->result() as $col){
+        $data['id'] = $col->id;
+        $data['role']  = $col->role;
+        $data['description'] = $col->description;
+       }
+    }
     $data['pagetitle'] = 'Add Role';
     $this->load->module('template');
     $this->template->buildview(array('addroles'),$data);

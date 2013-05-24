@@ -37,7 +37,18 @@
                                 <input type="text" class="large" name="role" value="<?php echo(@$role); ?>" />
                             </td>
                         </tr>
-                        
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Description: </label>
+                            </td>
+                            <td class="col2">
+                                <textarea class="large" cols="26" rows="7" name="description" ><?php echo(@$description); ?></textarea>
+                            </td>
+                        </tr>
+                        <?php if(isset($id)){ ?>
+                        <input type="hidden" name="id" value="<?php echo(@$id); ?>" />
+                        <?php } ?>
                         <tr>
                             <td class="col1">
                                 &nbsp;

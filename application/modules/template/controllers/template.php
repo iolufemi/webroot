@@ -16,7 +16,7 @@ class Template extends MX_Controller {
   //load the admin homepage view
 	public function admin_home($data = "")
 	{
-		$this->load->view('admin/users/admin_home');
+		$this->load->view('admin/common/admin_home');
 	}
     //load the admin login view
     function admin_login($data = ""){
@@ -24,11 +24,11 @@ class Template extends MX_Controller {
     }
     //load the admin header view
     function admin_header($data = ""){
-        $this->load->view('admin/users/admin_header',$data);
+        $this->load->view('admin/common/admin_header',$data);
     }
     //load the admin footer view
     function admin_footer($data = ""){
-        $this->load->view('admin/users/admin_footer',$data);
+        $this->load->view('admin/common/admin_footer',$data);
     }
     //load the registration form view
     function registration_form($data = ""){
@@ -38,6 +38,10 @@ class Template extends MX_Controller {
     function addroles($data = ""){
         $this->load->view('admin/roles/add-roles',$data);
         }
+        
+    function roles($data = ""){
+        $this->load->view('admin/roles/roles',$data);
+    }
     }
 
 ?>
