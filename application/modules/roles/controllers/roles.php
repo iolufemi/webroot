@@ -96,7 +96,7 @@ function get_form_data(){
     return $data;
 }
 
-//CRUD create processor
+//CRUD create and update processor
 function submit(){
     $data = $this->get_form_data();
     if(empty($data['id']) || !isset($data['id'])){
@@ -140,9 +140,11 @@ function create(){
     $this->template->buildview(array('addroles'),$data);
 }
 
-//CRUD Update
-function update($id){
-    
+//CRUD Delete
+function delete(){
+    $id = $this->uri->segment(3);
+    $this->_delete($id);
+    redirect('roles/read_all_ui');
 }
 
 

@@ -921,7 +921,7 @@ td.details {
 
 /* Set default button colors */
 .btn, .btn-icon, .btn-mini,
-.btn:visited, .btn-icon:visited, .btn-mini:visited {  background-image: url(../img/bg-lite.png); background-color: #F90; border-color: #D58000; color: #FFF; }
+.btn:visited, .btn-icon:visited, .btn-mini:visited {  background-image: url(../img/bg-lite.png); background-color: #F90; border-color: #D58000; color: #FFF;   vertical-align: middle;}
 
 .btn:hover, .btn-icon:hover, .btn-mini:hover { background-color: #D58000; color: #FFF; }
 

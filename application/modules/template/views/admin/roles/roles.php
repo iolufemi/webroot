@@ -49,21 +49,24 @@
 							<th>ID</th>
 							<th>Role</th>
 							<th>Description</th>
+                            <th>&nbsp;</th>
 						</tr>
 					</thead>
 					<tbody>
                     <?php 
                     $i = 0;
+                    $ii = 1;
                     foreach($query->result() as $row){ ?>
 						<tr class="<?php if($i == 0){echo "odd";}
                         if($i == 1){echo "even";} ?> gradeX">
-							<td><?php echo anchor("roles/create/$row->id",$row->id,array('title' => 'Edit') );?></td>
+							<td><?php echo $ii/*anchor("roles/create/$row->id",$row->id,array('title' => 'Edit') )*/;?></td>
 							<td><?php echo anchor("roles/create/$row->id",$row->role,array('title' => 'Edit') );?></td>
 							<td><?php echo anchor("roles/create/$row->id",$row->description,array('title' => 'Edit') );?> </td>
-						</tr>
+						      <td><a href="<?php echo base_url("/roles/delete/$row->id"); ?>" class="btn-mini btn-black btn-cross" title="Delete"><span></span>Delete</a></td>
+                        </tr>
                         
                         <?php 
-                        
+                        $ii++;
                         $i++;
                         if($i == 2){
                             unset($i);
