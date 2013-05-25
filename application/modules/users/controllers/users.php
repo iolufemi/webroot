@@ -66,7 +66,7 @@ $this->load->model('mdl_users');
 $query = $this->mdl_users->_custom_query($mysql_query);
 return $query;
 }
-
+// TODO: Add Cookie Support
 // let's process the submited form data
 function admin_login_submit(){
     $data = $this->get_form_data();
@@ -108,19 +108,67 @@ function admin_login(){
 
 // display the registration page
 function register(){
-    $data['pagetitle'] = "Register";
+    $id = $this->uri->segment(3);
+    
+    if(is_numeric($id)){
+        $data['pagetitle'] = "Update User";
+        $data['id'] = $id;
+        $query = $this->read($id);
+        foreach($query->result() as $row){
+            $data['username'] = $row->username;
+            $data['firstname'] = $row->firstname;
+            $data['lastname'] = $row->lastname;
+            $data['sex'] = $row->sex;
+            $data['email'] = $row->email;
+            $data['phone'] = $row->phone;
+            $data['address'] = $row->address;
+        }
+    }else{
+        $data['pagetitle'] = "Register";
+    }
     $this->load->module('template');
     $views = array('registration_form');
     $this->template->buildview($views,$data);
 }
 // TODO: I stopped here and will continue later.
  // TODO: Do the validation
- // process the submited registration details
+ // process the submited registration details(Create and Update))
 function registration_submit(){
     $data = $this->get_form_data();
+    $password = md5($data['password']);
+    unset($data['password']);
+     $data['password'] = $password;
     unset($data['password2']);
-    $this->_insert($data);
-    echo "done";
+    if(isset($data['id']) || $data['id'] != ""){
+        $this->_update($data['id'],$data);
+    }else{
+        $this->_insert($data);
+    }
+}
+
+//CRUD Read 
+function read($id){
+    $data = $this->get_where($id);
+    return $data;
+}
+
+//CRUD Read All
+function read_all(){
+    $result = $this->get('id');
+    return $result;
+}
+
+function allusers(){
+    $data['query'] = $this->read_all();
+    $data['pagetitle'] = "Users";
+    $this->load->module('template');
+    $views = array('users');
+    $this->template->buildview($views,$data);
+}
+
+function delete(){
+    $id = $this->uri->segment(3);
+    $this->_delete($id);
 }
 
 }

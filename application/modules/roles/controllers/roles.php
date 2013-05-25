@@ -127,7 +127,7 @@ function submit(){
 //CRUD Create
 function create(){
     $id = $this->uri->segment(3);
-    if(isset($id) || $id != "" || is_numeric($is)){
+    if(is_numeric($is)){
        $query = $this->get_where($id);
        foreach($query->result() as $col){
         $data['id'] = $col->id;

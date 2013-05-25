@@ -78,7 +78,7 @@
                                     Sex: </label>
                             </td>
                             <td class="col2">
-                                Male <input type="radio" name="sex" value="male" /> Female <input type="radio" name="sex" value="female" />
+                                Male <input type="radio" name="sex" value="male" <?php if(@$sex == 'male'){ ?> checked="yes" <?php }  ?> /> Female <input type="radio" name="sex" value="female" <?php if(@$sex == 'female'){ ?> checked="yes" <?php }  ?>  />
                             </td>
                         </tr>
                         <tr>
@@ -116,17 +116,30 @@
                                     Role: </label>
                             </td>
                             <td class="col2">
-                                <select size="1">
-                                	<option value="3">Tenant</option>
-                                	<option value="2">Agent</option>
-                                	<option value="4">Landlord</option>
-                                	<option value="1">Administrator</option>
+                                <select size="1" name="role">
+                                <?php 
+                                
+                                $this->load->module('roles');
+                                $roles = $this->roles->read_all();
+                                
+                                foreach($roles->result() as $role){
+                                    ?>
+                                    <option value="<?php echo $role->id; ?>"><?php echo $role->role; ?></option>
+                                    <?php
+                                }
+                                
+                                
+                                 ?>
+                                	
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">
-                                &nbsp;
+                            
+                                &nbsp;<?php if(isset($id) || $id != ""){ ?>
+                                <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                                <?php } ?>
                             </td>
                             <td class="col2">
                                 <button class="btn" onclick="$(this).submit()" id="submit">Register</button>

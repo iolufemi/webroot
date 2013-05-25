@@ -42,6 +42,11 @@ class Template extends MX_Controller {
     function roles($data = ""){
         $this->load->view('admin/roles/roles',$data);
     }
+    
+    function users($data = ""){
+        $this->load->view('admin/users/users',$data);
+    }
+    
     }
 
 ?>
