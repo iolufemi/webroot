@@ -138,6 +138,10 @@ function registration_submit(){
     $password = md5($data['password']);
     unset($data['password']);
      $data['password'] = $password;
+     $data['verificationcode'] = md5($data['username'].$data['email']);
+     $address = trim($data['address']);
+     unset($data['address']);
+     $data['address'] = $address;
     unset($data['password2']);
     if(isset($data['id']) || $data['id'] != ""){
         $this->_update($data['id'],$data);
