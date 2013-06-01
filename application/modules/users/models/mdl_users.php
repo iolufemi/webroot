@@ -1,4 +1,4 @@
-<?php
+?php
 
 class Mdl_users extends CI_Model {
 

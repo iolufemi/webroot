@@ -1,4 +1,4 @@
-<?php
+?php
 
 class Mdl_status extends CI_Model {
 

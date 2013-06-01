@@ -1,9 +1,11 @@
-<?php
+?php
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Users extends MX_Controller
 {
+    
+    
     
 // To make my job easier, let me copy copy this.
 function __construct() {
@@ -66,7 +68,7 @@ $this->load->model('mdl_users');
 $query = $this->mdl_users->_custom_query($mysql_query);
 return $query;
 }
-// TODO: Add Cookie Support
+
 // let's process the submited form data
 function admin_login_submit(){
     $data = $this->get_form_data();
@@ -75,9 +77,14 @@ function admin_login_submit(){
     $usercheck = $this->count_where('username',$username);
     $passcheck = $this->count_where('password',$password);
     if($usercheck > 0 && $passcheck > 0){
-        session_start();
-        session_name('toletlagos');
-        $_SESSION['user_token'] = base64_encode($username);
+        $email = $this->get_where_custom('username',$username);
+        $result = $email->result();
+        $the_email = $result->email;
+        $user_token = md5($username.$the_email);
+        $this->session->set_userdata("user_token",$user_token);        
+        if($data['rememberme'] == "rememberme"){
+            $this->input->set_cookie('rememberme',$user_token,'604800',base_url(),'/','io',false);
+        }
         redirect('users/admin_dashboard');
     }else{
         $data['alert_type'] = 'error';
@@ -109,6 +116,10 @@ function admin_login(){
 // display the registration page
 function register(){
     $id = $this->uri->segment(3);
+    
+    if(isset($data['avatar'])){
+        
+    }
     
     if(is_numeric($id)){
         $data['pagetitle'] = "Update User";

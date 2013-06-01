@@ -1,4 +1,4 @@
-<?php
+?php
 
 class Mdl_perfectmodel extends CI_Model {
 

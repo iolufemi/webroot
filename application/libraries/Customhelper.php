@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 class Customhelper{
     
@@ -31,12 +31,12 @@ function notification($message, $type='info'){
         
     }
     
-    echo('<div class="message '.$class.'">
-                                <h5>'.$header.'</h5>
-                                <p>
+    echo('div class="message '.$class.'">
+                                h5>'.$header.'/h5>
+                                p>
                                     '.$message.'
-                                </p>
-                            </div>');
+                                /p>
+                            /div>');
                             return TRUE;
 }
 

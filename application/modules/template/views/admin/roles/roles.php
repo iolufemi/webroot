@@ -1,9 +1,9 @@
-        <script src="<?php echo base_url(); ?>js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
-    <script src="<?php echo base_url(); ?>js/table/jquery.dataTables.min.js" type="text/javascript"></script>
-    <!-- END: load jquery -->
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/table/table.js"></script>
-    <script src="<?php echo base_url(); ?>js/setup.js" type="text/javascript"></script>
-    <script type="text/javascript">
+        script src="?php echo base_url(); ?>js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript">/script>
+    script src="?php echo base_url(); ?>js/table/jquery.dataTables.min.js" type="text/javascript">/script>
+    !-- END: load jquery -->
+    script type="text/javascript" src="?php echo base_url(); ?>js/table/table.js">/script>
+    script src="?php echo base_url(); ?>js/setup.js" type="text/javascript">/script>
+    script type="text/javascript">
 
         $(document).ready(function () {
             setupLeftMenu();
@@ -13,14 +13,14 @@
 
 
         });
-    </script>
-        <div class="grid_10">
-            <div class="box round first grid">
-                <h2 class="_left">
-                    Roles</h2>
-                    <span class="headerlink"><?php echo anchor("roles/create","Add New"); ?></span>
-                <div class="block">
-                    <?php if(isset($alert_type)){
+    /script>
+        div class="grid_10">
+            div class="box round first grid">
+                h2 class="_left">
+                    Roles/h2>
+                    span class="headerlink">?php echo anchor("roles/create","Add New"); ?>/span>
+                div class="block">
+                    ?php if(isset($alert_type)){
             
             $this->load->library('customhelper');
             
@@ -43,29 +43,29 @@
         } ?>
                     
                     
-                    <table class="data display datatable" id="example">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Role</th>
-							<th>Description</th>
-                            <th>&nbsp;</th>
-						</tr>
-					</thead>
-					<tbody>
-                    <?php 
+                    table class="data display datatable" id="example">
+					thead>
+						tr>
+							th>ID/th>
+							th>Role/th>
+							th>Description/th>
+                            th>&nbsp;/th>
+						/tr>
+					/thead>
+					tbody>
+                    ?php 
                     $i = 0;
                     $ii = 1;
                     foreach($query->result() as $row){ ?>
-						<tr class="<?php if($i == 0){echo "odd";}
+						tr class="?php if($i == 0){echo "odd";}
                         if($i == 1){echo "even";} ?> gradeX">
-							<td><?php echo $ii/*anchor("roles/create/$row->id",$row->id,array('title' => 'Edit') )*/;?></td>
-							<td><?php echo anchor("roles/create/$row->id",$row->role,array('title' => 'Edit') );?></td>
-							<td><?php echo anchor("roles/create/$row->id",$row->description,array('title' => 'Edit') );?> </td>
-						      <td><a href="<?php echo base_url("/roles/delete/$row->id"); ?>" class="btn-mini btn-black btn-cross" title="Delete"><span></span>Delete</a></td>
-                        </tr>
+							td>?php echo $ii/*anchor("roles/create/$row->id",$row->id,array('title' => 'Edit') )*/;?>/td>
+							td>?php echo anchor("roles/create/$row->id",$row->role,array('title' => 'Edit') );?>/td>
+							td>?php echo anchor("roles/create/$row->id",$row->description,array('title' => 'Edit') );?> /td>
+						      td>a href="?php echo base_url("/roles/delete/$row->id"); ?>" class="btn-mini btn-black btn-cross" title="Delete">span>/span>Delete/a>/td>
+                        /tr>
                         
-                        <?php 
+                        ?php 
                         $ii++;
                         $i++;
                         if($i == 2){
@@ -73,11 +73,11 @@
                             $i = 0;
                         }
                         } ?>
-					</tbody>
-				</table>
+					/tbody>
+				/table>
                     
                     
                     
-                </div>
-            </div>
-        </div>
+                /div>
+            /div>
+        /div>
