@@ -1,8 +1,8 @@
-!DOCTYPE html>
-html lang="en">
-head>
-title>Error/title>
-style type="text/css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Error</title>
+<style type="text/css">
 
 ::selection{ background-color: #E13300; color: white; }
 ::moz-selection{ background-color: #E13300; color: white; }
@@ -51,12 +51,12 @@ code {
 p {
 	margin: 12px 15px 12px 15px;
 }
-/style>
-/head>
-body>
-	div id="container">
-		h1>?php echo $heading; ?>/h1>
-		?php echo $message; ?>
-	/div>
-/body>
-/html>
+</style>
+</head>
+<body>
+	<div id="container">
+		<h1><?php echo $heading; ?></h1>
+		<?php echo $message; ?>
+	</div>
+</body>
+</html>

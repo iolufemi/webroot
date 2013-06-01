@@ -1,4 +1,4 @@
-?php
+<?php
 
 class Perfectcontroller extends MX_Controller
 {

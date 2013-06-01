@@ -1,11 +1,11 @@
 
         
-        div class="grid_3 aligncenter">
-            div class="box round first fullpage">
-                h2>
-                    Add New Role/h2>
-                div class="block ">
-                ?php if(isset($alert_type)){
+        <div class="grid_3 aligncenter">
+            <div class="box round first fullpage">
+                <h2>
+                    Add New Role</h2>
+                <div class="block ">
+                <?php if(isset($alert_type)){
             
             $this->load->library('customhelper');
             
@@ -26,46 +26,46 @@
             }
             
         } ?>
-                    form action="?php echo base_url('roles/submit'); ?>" method="post" name="addrole" id="addrole">
-                    table class="form">
-                        tr>
-                            td class="col1">
-                                label>
-                                    Role Name: /label>
-                            /td>
-                            td class="col2">
-                                input type="text" class="large" name="role" value="?php echo(@$role); ?>" />
-                            /td>
-                        /tr>
-                        tr>
-                            td class="col1">
-                                label>
-                                    Description: /label>
-                            /td>
-                            td class="col2">
-                                textarea class="large" cols="26" rows="7" name="description" >?php echo(@$description); ?>/textarea>
-                            /td>
-                        /tr>
-                        ?php if(isset($id)){ ?>
-                        input type="hidden" name="id" value="?php echo(@$id); ?>" />
-                        ?php } ?>
-                        tr>
-                            td class="col1">
+                    <form action="<?php echo base_url('roles/submit'); ?>" method="post" name="addrole" id="addrole">
+                    <table class="form">
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Role Name: </label>
+                            </td>
+                            <td class="col2">
+                                <input type="text" class="large" name="role" value="<?php echo(@$role); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Description: </label>
+                            </td>
+                            <td class="col2">
+                                <textarea class="large" cols="26" rows="7" name="description" ><?php echo(@$description); ?></textarea>
+                            </td>
+                        </tr>
+                        <?php if(isset($id)){ ?>
+                        <input type="hidden" name="id" value="<?php echo(@$id); ?>" />
+                        <?php } ?>
+                        <tr>
+                            <td class="col1">
                                 &nbsp;
-                            /td>
-                            td class="col2">
-                                button class="btn" onclick="$(this).submit()">Add Role/button>
-                            /td>
-                        /tr>
+                            </td>
+                            <td class="col2">
+                                <button class="btn" onclick="$(this).submit()">Add Role</button>
+                            </td>
+                        </tr>
                         
                         
                         
-                    /table>
-                    /form>
-                /div>
-            /div>
-        /div>
-        script type="text/javascript">
+                    </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
         $('form#addrole').validate(
         {
             rules:{
@@ -75,6 +75,6 @@
                   }
         }
         );        
-        /script>
+        </script>
         
         

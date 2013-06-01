@@ -1,4 +1,4 @@
-?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Template extends MX_Controller {
 
@@ -7,7 +7,6 @@ class Template extends MX_Controller {
      * */ 
   function buildview($views,$data = ""){
     $this->admin_header($data);
-    $this->adminmenu($data);
     foreach($views as $view){
         $this->$view($data);
     }
@@ -46,10 +45,6 @@ class Template extends MX_Controller {
     
     function users($data = ""){
         $this->load->view('admin/users/users',$data);
-    }
-    
-    function adminmenu($data = ""){
-        $this->load->view('admin/common/adminleft', $data);
     }
     
     }
