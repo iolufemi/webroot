@@ -67,18 +67,59 @@ $query = $this->mdl_users->_custom_query($mysql_query);
 return $query;
 }
 // TODO: Add Cookie Support
+// TODO: Add ability to login with session
 // let's process the submited form data
 function admin_login_submit(){
     $data = $this->get_form_data();
     $username = $data['username'];
     $password = md5($data['password']);
+    //check for cookie
+    $sweetcookie = $this->input->cookie('token');
+    $sessiondata = $this->session->all_userdata();
+    //print_r($sessiondata);
+    if(@strlen($sessiondata['token']) > 0){
+        $getval = $this->get_where_custom('verificationcode',$sessiondata['token']);
+        //$getvals = $getval->result();
+        foreach($getval->result() as $getvals){
+        $usercheck = $this->count_where('username',$getvals->username);
+        $passcheck = $this->count_where('password',$getvals->password);
+        $username = $getvals->username;
+        $email = $getvals->email;
+        }
+    }else{
+    if(strlen($sweetcookie) > 0){
+        $getval = $this->get_where_custom('verificationcode',$sweetcookie);
+        //$getvals = $getval->result();
+        foreach($getval->result() as $getvals){
+        $usercheck = $this->count_where('username',$getvals->username);
+        $passcheck = $this->count_where('password',$getvals->password);
+        $username = $getvals->username;
+        $email = $getvals->email;
+        }
+    }else{
     $usercheck = $this->count_where('username',$username);
     $passcheck = $this->count_where('password',$password);
+    }
+    }
+    // get the email from database
+    $useremail = $this->get_where_custom('username',$username);
+    //$theemail = $useremail->result();
+    foreach($useremail->result() as $theemail){
+    $token = md5($username.$theemail->email);
+    }
+    
+    if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){
+        $this->input->set_cookie('token',$token,'86500');
+    }
     if($usercheck > 0 && $passcheck > 0){
-        session_start();
-        session_name('toletlagos');
-        $_SESSION['user_token'] = base64_encode($username);
-        redirect('users/admin_dashboard');
+        $this->session->set_userdata('token',$token);
+        //redirect('users/admin_dashboard');
+        $data['alert_type'] = 'success';
+        $data['alert_message'] = 'You have successfully logged in';
+        $this->load->module('template');
+        $views = array('admin_login');
+        $data['pagetitle'] = "You have successfully logged in";
+        $this->template->buildview($views,$data);
     }else{
         $data['alert_type'] = 'error';
         $data['alert_message'] = 'Stop! Wrong Username or Password';
@@ -146,8 +187,22 @@ function registration_submit(){
     if(isset($data['id']) || $data['id'] != ""){
         $this->_update($data['id'],$data);
     }else{
+        $countuser = $this->count_where('username',$data['username']);
+        $countemail = $this->count_where('email',$data['email']);
+        if($countemail > 0 || $countuser >0){
+            $data['pagetitle'] = "Warninng! This Username or Email has been taken";
+            $data['alert_type'] = 'warning';
+            $data['alert_message'] = 'Warninng! This Username or Email has been taken';
+        }else{
+        $data['pagetitle'] = "Success! You have been registered";
+        $data['alert_type'] = 'success';
+        $data['alert_message'] = 'Success! You have been registered';
         $this->_insert($data);
+        }
     }
+    $this->load->module('template');
+    $views = array('registration_form');
+    $this->template->buildview($views,$data);
 }
 
 //CRUD Read 
@@ -173,6 +228,15 @@ function allusers(){
 function delete(){
     $id = $this->uri->segment(3);
     $this->_delete($id);
+}
+
+function logout(){
+    $this->session->sess_destroy();
+    delete_cookie('token');
+    $data['pagetitle'] = "You have been Logged Out";    
+    $this->load->module('template');
+    $views = array('admin_login');
+    $this->template->buildview($views,$data);
 }
 
 }
