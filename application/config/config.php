@@ -247,7 +247,7 @@ $config['encryption_key'] = '0703jackie,Feeder123/command555';
 $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= true;
-$config['sess_encrypt_cookie']	= FALSE;
+$config['sess_encrypt_cookie']	= true;
 $config['sess_use_database']	= true;
 $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
@@ -265,7 +265,7 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
 |
 */
-$config['cookie_prefix']	= "";
+$config['cookie_prefix']	= "tll_";
 $config['cookie_domain']	= ".toletlagos.com";
 $config['cookie_path']		= "/";
 $config['cookie_secure']	= FALSE;
@@ -293,7 +293,7 @@ $config['global_xss_filtering'] = TRUE;
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
-$config['csrf_protection'] = FALSE;
+$config['csrf_protection'] = false;
 $config['csrf_token_name'] = 'csrf_test_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;

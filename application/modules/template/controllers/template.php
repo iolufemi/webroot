@@ -7,6 +7,7 @@ class Template extends MX_Controller {
      * */ 
   function buildview($views,$data = ""){
     $this->admin_header($data);
+    $this->admin_menu($data);
     foreach($views as $view){
         $this->$view($data);
     }
@@ -45,6 +46,14 @@ class Template extends MX_Controller {
     
     function users($data = ""){
         $this->load->view('admin/users/users',$data);
+    }
+    
+    function users_dashboard($data = ""){
+        $this->load->view('admin/users/users_dashboard',$data);
+    }
+    
+    function admin_menu($data = ""){
+        $this->load->view('admin/common/admin_menu',$data);
     }
     
     }

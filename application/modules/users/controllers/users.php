@@ -74,7 +74,7 @@ function admin_login_submit(){
     $username = $data['username'];
     $password = md5($data['password']);
     //check for cookie
-    $sweetcookie = $this->input->cookie('token');
+    $sweetcookie = $this->input->cookie('tll_token');
     $sessiondata = $this->session->all_userdata();
     //print_r($sessiondata);
     if(@strlen($sessiondata['token']) > 0){

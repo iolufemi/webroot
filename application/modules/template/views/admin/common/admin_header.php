@@ -12,7 +12,7 @@
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/ie.css" media="screen" /><![endif]-->
     <link href="<?php echo base_url(); ?>css/fancy-button/fancy-button.css" rel="stylesheet" type="text/css" />
     <!--Jquery UI CSS-->
-    <link href="<?php echo base_url(); ?>css/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+    <!--<link href="<?php echo base_url(); ?>css/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />-->
     <!-- BEGIN: load jquery -->
     <script src="<?php echo base_url(); ?>js/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery-ui/jquery.ui.core.min.js"></script>
@@ -54,6 +54,7 @@
         });
     </script>
     <!-- /TinyMCE -->
+    
     <style type="text/css">
         #progress-bar
         {

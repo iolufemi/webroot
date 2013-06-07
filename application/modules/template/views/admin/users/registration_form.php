@@ -1,6 +1,6 @@
 
         
-        <div class="grid_12">
+        <div class="grid_10">
             <div class="box round first fullpage">
                 <h2>
                     Register</h2>
@@ -137,7 +137,7 @@
                         <tr>
                             <td class="col1">
                             
-                                &nbsp;<?php if(isset($id) || $id != ""){ ?>
+                                &nbsp;<?php if(isset($id) || @$id != ""){ ?>
                                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
                                 <?php } ?>
                             </td>
