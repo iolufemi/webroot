@@ -4,7 +4,7 @@
             <div class="box sidemenu">
                 <div class="block" id="section-menu">
                     <ul class="section menu">
-                        <li><a class="menuitem">Menu 1</a>
+                        <li><a class="menuitem" href="<?php echo base_url("/users"); ?>">Users</a>
                             <ul class="submenu">
                                 <li><a>Submenu 1</a> </li>
                                 <li><a>Submenu 2</a> </li>

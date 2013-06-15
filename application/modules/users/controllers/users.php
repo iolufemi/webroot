@@ -10,6 +10,10 @@ function __construct() {
 parent::__construct();
 }
 
+function index(){
+   $this->allusers();
+}
+
 function get($order_by){
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get($order_by);
