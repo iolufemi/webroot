@@ -9,6 +9,10 @@ function __construct() {
 parent::__construct();
 }
 
+function index(){
+    $this->read_all_ui();
+}
+
 function get($order_by){
 $this->load->model('mdl_roles');
 $query = $this->mdl_roles->get($order_by);
@@ -127,7 +131,7 @@ function submit(){
 //CRUD Create
 function create(){
     $id = $this->uri->segment(3);
-    if(is_numeric($is)){
+    if(is_numeric($id)){
        $query = $this->get_where($id);
        foreach($query->result() as $col){
         $data['id'] = $col->id;

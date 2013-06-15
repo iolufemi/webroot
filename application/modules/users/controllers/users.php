@@ -6,10 +6,10 @@ class Users extends MX_Controller
 {
     
 // To make my job easier, let me copy copy this.
-function __construct() {
+function __construct(){
 parent::__construct();
 }
-
+//this handles the module according to codeigniter
 function index(){
    $this->allusers();
 }
@@ -32,7 +32,7 @@ $query = $this->mdl_users->get_where($id);
 return $query;
 }
 
-function get_where_custom($col, $value) {
+function get_where_custom($col, $value){
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get_where_custom($col, $value);
 return $query;
@@ -113,24 +113,27 @@ function admin_login_submit(){
     }
     
     if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){
-        $this->input->set_cookie('token',$token,'86500');
+        //cookie active for one week
+        $this->input->set_cookie('token',$token,'604800');
     }
     if($usercheck > 0 && $passcheck > 0){
         $this->session->set_userdata('token',$token);
-        //redirect('users/admin_dashboard');
-        $data['alert_type'] = 'success';
+        /*redirect('users/admin_dashboard');*/
+        return true;
+        /*$data['alert_type'] = 'success';
         $data['alert_message'] = 'You have successfully logged in';
         $this->load->module('template');
         $views = array('admin_login');
         $data['pagetitle'] = "You have successfully logged in";
-        $this->template->buildview($views,$data);
+        $this->template->buildview($views,$data);*/
     }else{
         $data['alert_type'] = 'error';
         $data['alert_message'] = 'Stop! Wrong Username or Password';
         $this->load->module('template');
         $views = array('admin_login');
         $data['pagetitle'] = "Error, Please Try Again | Admin Login";
-        $this->template->buildview($views,$data);
+        $this->template->buildaview($views,$data,false);
+        return false;
         
     }
     
@@ -147,7 +150,7 @@ function admin_login(){
     $data['pagetitle'] = "Admin Login";
     $this->load->module('template');
     $views = array('admin_login');
-    $this->template->buildview($views,$data);
+    $this->template->buildaview($views,$data,false);
 }
 
 
