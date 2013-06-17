@@ -68,7 +68,21 @@
             <div id="branding">
                 <div class="floatleft">
                     <img src="<?php echo base_url(); ?>img/logo.png" alt="Logo" /></div>
-                
+                <?php if($this->session->userdata('token')){ ?><div class="floatright">
+                    <div class="floatleft">
+                        <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
+                    <div class="floatleft marginleft10">
+                        <ul class="inline-ul floatleft">
+                            <li>Hello <?php echo $this->session->userdata('username'); ?></li>
+                            <?php $uid = $this->session->userdata('user_id'); ?>
+                            <li><a href="<?php echo base_url("users/register/$uid"); ?>" title="Edit Profile">profile</a></li>
+                            <li><a href="<?php echo base_url('users/logout'); ?>">Logout</a></li>
+                        </ul>
+                        <br />
+                        
+                        <span class="small grey">Last Session Activity: <?php  echo timespan($this->session->userdata('last_activity'),time()); ?> ago</span>
+                    </div>
+                </div> <?php } ?>
                 <div class="clear">
                 </div>
             </div>

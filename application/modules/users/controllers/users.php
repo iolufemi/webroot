@@ -89,6 +89,8 @@ function admin_login_submit(){
         $passcheck = $this->count_where('password',$getvals->password);
         $username = $getvals->username;
         $email = $getvals->email;
+        $role = $getvals->role;
+        $id = $getvals->id;
         }
     }else{
     if(strlen($sweetcookie) > 0){
@@ -99,6 +101,8 @@ function admin_login_submit(){
         $passcheck = $this->count_where('password',$getvals->password);
         $username = $getvals->username;
         $email = $getvals->email;
+        $role = $getvals->role;
+        $id = $getvals->id;
         }
     }else{
     $usercheck = $this->count_where('username',$username);
@@ -110,14 +114,20 @@ function admin_login_submit(){
     //$theemail = $useremail->result();
     foreach($useremail->result() as $theemail){
     $token = md5($username.$theemail->email);
+    $role = $theemail->role;
+    $id = $theemail->id;
     }
     
     if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){
         //cookie active for one week
         $this->input->set_cookie('token',$token,'604800');
+        
     }
     if($usercheck > 0 && $passcheck > 0){
         $this->session->set_userdata('token',$token);
+        $this->session->set_userdata('role',$role);
+        $this->session->set_userdata('user_id',$id);
+        $this->session->set_userdata('username',$username);
         /*redirect('users/admin_dashboard');*/
         return true;
         /*$data['alert_type'] = 'success';
@@ -127,12 +137,12 @@ function admin_login_submit(){
         $data['pagetitle'] = "You have successfully logged in";
         $this->template->buildview($views,$data);*/
     }else{
-        $data['alert_type'] = 'error';
+        /*$data['alert_type'] = 'error';
         $data['alert_message'] = 'Stop! Wrong Username or Password';
         $this->load->module('template');
         $views = array('admin_login');
         $data['pagetitle'] = "Error, Please Try Again | Admin Login";
-        $this->template->buildaview($views,$data,false);
+        $this->template->buildview($views,$data,false);*/
         return false;
         
     }
@@ -146,12 +156,12 @@ function get_form_data(){
 }
 
 //display the admin login page
-function admin_login(){
+/*function admin_login(){
     $data['pagetitle'] = "Admin Login";
     $this->load->module('template');
     $views = array('admin_login');
-    $this->template->buildaview($views,$data,false);
-}
+    $this->template->buildview($views,$data,false);
+}*/
 
 
 // display the registration page
@@ -240,10 +250,7 @@ function delete(){
 function logout(){
     $this->session->sess_destroy();
     delete_cookie('token');
-    $data['pagetitle'] = "You have been Logged Out";    
-    $this->load->module('template');
-    $views = array('admin_login');
-    $this->template->buildview($views,$data);
+    redirect('users');
 }
 
 }

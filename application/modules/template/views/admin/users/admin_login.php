@@ -26,7 +26,7 @@
             }
             
         } ?>
-                    <form action="<?php echo base_url('users/admin_login_submit'); ?>" method="post" name="admin_login">
+                    <form action="<?php //echo base_url('users/admin_login_submit'); ?>" method="post" name="admin_login">
                     <table class="form">
                         <tr>
                             <td class="col1">

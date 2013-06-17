@@ -11,39 +11,32 @@ class Template extends MX_Controller {
      * i use This function to render the needed template views for a page
      * */ 
   function buildview($views,$data = "",$menu = true){
-    $this->load->module('users');
-        $status = $this->users->admin_login_submit();
-        if(!$status){
-            redirect('users/admin_login');
-        }
-    $this->admin_header($data);
-    if(!$menu){
+    $this->load->module('users');           
+    
+    $status = $this->users->admin_login_submit();
+    if(!$status){
+        
+        $data['alert_type'] = 'warning';
+        $data['alert_message'] = 'Please, Login First';
+        $data['pagetitle'] = "Warning, Please Login | Admin Login";
+        $this->admin_header($data);
+        $this->admin_login($data);
+    }else{
+        $this->admin_header($data);
+        if(!$menu){
         
     }else{
         $this->admin_menu($data);
-    }
-    
+    } 
     foreach($views as $view){
         $this->$view($data);
     }
+    }    
     $this->admin_footer($data);
     return true;
 }   
 
-  function buildaview($views,$data = "",$menu = true){
-    $this->admin_header($data);
-    if(!$menu){
-        
-    }else{
-        $this->admin_menu($data);
-    }
-    
-    foreach($views as $view){
-        $this->$view($data);
-    }
-    $this->admin_footer($data);
-    return true;
-} 
+
   //load the admin homepage view
 	public function admin_home($data = "")
 	{
