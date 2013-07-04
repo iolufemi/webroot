@@ -67,6 +67,14 @@ class Template extends MX_Controller {
         $this->load->view('admin/roles/roles',$data);
     }
     
+    function addstatus($data = ""){
+        $this->load->view('admin/status/add-status',$data);
+        }
+        
+    function status($data = ""){
+        $this->load->view('admin/status/status',$data);
+    }
+    
     function users($data = ""){
         $this->load->view('admin/users/users',$data);
     }

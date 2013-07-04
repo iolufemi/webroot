@@ -185,11 +185,19 @@ function register(){
         $data['pagetitle'] = "Register";
     }
     $this->load->module('template');
-    $views = array('registration_form');
-    $this->template->buildview($views,$data);
+    /*$views = array('registration_form');
+    $this->template->buildview($views,$data);*/
+        
+    $this->template->admin_header($data);
+    if(!$this->admin_login_submit()){
+        
+    }else{
+        $this->template->admin_menu($data);
+    }
+    $this->template->registration_form($data);
+    $this->template->admin_footer($data);
 }
-// TODO: I stopped here and will continue later.
- // TODO: Do the validation
+
  // process the submited registration details(Create and Update))
 function registration_submit(){
     $data = $this->get_form_data();
@@ -201,26 +209,53 @@ function registration_submit(){
      unset($data['address']);
      $data['address'] = $address;
     unset($data['password2']);
-    if(isset($data['id']) || $data['id'] != ""){
+    if(isset($data['id']) || @$data['id'] != ""){
         $this->_update($data['id'],$data);
     }else{
         $countuser = $this->count_where('username',$data['username']);
         $countemail = $this->count_where('email',$data['email']);
-        if($countemail > 0 || $countuser >0){
+        if($countemail > 0 || $countuser > 0){
             $data['pagetitle'] = "Warninng! This Username or Email has been taken";
             $data['alert_type'] = 'warning';
             $data['alert_message'] = 'Warninng! This Username or Email has been taken';
         }else{
+            $this->_insert($data);
         $data['pagetitle'] = "Success! You have been registered";
         $data['alert_type'] = 'success';
-        $data['alert_message'] = 'Success! You have been registered';
-        $this->_insert($data);
-        }
+        $data['alert_message'] = 'Success! You have been registered<br />Please, Check your email to activate.';
+        
+        // send Email Verification email
+        $this->email->from('your@example.com', 'Your Name');
+        $this->email->to($data['email']); 
+        
+        $this->email->subject('Please, Verify Your Registration On Our Website');
+        $this->email->message('Please, Click on the link to continue. '.base_url('users/verify/'.$data['verificationcode'].'').'');	
+        
+        $this->email->send();
+                }
     }
     $this->load->module('template');
-    $views = array('registration_form');
-    $this->template->buildview($views,$data);
+   /* $views = array('registration_form');
+    $this->template->buildview($views,$data);*/
+    
+    $this->template->admin_header($data);
+    $this->template->registration_form($data);
+    $this->template->admin_footer($data);
 }
+
+//The user verification function
+
+function verify(){
+    $data['status'] = '2';
+    $thecode = $this->uri->segment(3);
+    $query = $this->get_where_custom('verificationcode',$thecode);
+    foreach($query->result() as $result){
+        $this->_update($result->id,$data);
+    }
+    redirect('users');
+    // TODO: continue  here
+}
+
 
 //CRUD Read 
 function read($id){

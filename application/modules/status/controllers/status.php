@@ -9,6 +9,10 @@ function __construct() {
 parent::__construct();
 }
 
+function index(){
+    $this->read_all_ui();
+}
+
 function get($order_by){
 $this->load->model('mdl_status');
 $query = $this->mdl_status->get($order_by);
@@ -64,6 +68,87 @@ function _custom_query($mysql_query) {
 $this->load->model('mdl_status');
 $query = $this->mdl_status->_custom_query($mysql_query);
 return $query;
+}
+
+/*
+* My Stuff
+*/
+
+//CRUD Read 
+function read($id){
+    $data = $this->get_where($id);
+    return $data;
+}
+
+//CRUD Read All
+function read_all(){
+    $result = $this->get('id');
+    return $result;
+}
+
+function read_all_ui(){
+    
+    $data['query'] = $this->read_all();
+    $data['pagetitle'] = 'User Status';
+    $this->load->module('template');
+    $this->template->buildview(array('status'),$data);
+}
+
+// get all data in the form fields
+function get_form_data(){
+    $data = $this->input->post();
+    return $data;
+}
+
+//CRUD create and update processor
+function submit(){
+    $data = $this->get_form_data();
+    if(empty($data['id']) || !isset($data['id'])){
+    //lets check if the status already exists
+    $check = $this->count_where('status',$data['status']);
+    if($check > 0){
+        $data['alert_type'] = 'error';
+        $data['alert_message'] = 'This status already exist';
+        $data['pagetitle'] = 'Error! This status already exist';
+        $this->load->module('template');
+        $this->template->buildview(array('addstatus'),$data);
+    }else{
+        $this->_insert($data);
+        unset($data);
+        redirect('status/read_all_ui');
+    }
+    
+    }else{
+        if(isset($data['id'])){
+        $this->_update($data['id'],$data);
+        unset($data);
+        redirect('status/read_all_ui');
+        }
+    }
+    
+}
+
+//CRUD Create
+function create(){
+    $id = $this->uri->segment(3);
+    if(is_numeric($id)){
+       $query = $this->get_where($id);
+       foreach($query->result() as $col){
+        $data['id'] = $col->id;
+        $data['status']  = $col->status;
+        $data['description'] = $col->description;
+       }
+    }
+    $data['pagetitle'] = 'Add Status';
+    $this->load->module('template');
+    $this->template->buildview(array('addstatus'),$data);
+}
+
+//CRUD Delete
+function delete(){
+    $id = $this->uri->segment(3);
+    $this->_delete($id);
+    redirect('status/read_all_ui');
 }
 
 }

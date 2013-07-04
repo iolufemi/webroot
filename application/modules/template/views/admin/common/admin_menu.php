@@ -8,6 +8,7 @@
                             <ul class="submenu">
                                 <li><a href="<?php echo base_url("users"); ?>">All Users</a> </li>
                                 <li><a href="<?php echo base_url("roles"); ?>">User Roles</a> </li>
+                                <li><a href="<?php echo base_url("status"); ?>">User Status</a> </li>
                             </ul>
                         </li>
                         <li><a class="menuitem">Menu 2</a>
