@@ -87,6 +87,10 @@ class Template extends MX_Controller {
         $this->load->view('admin/common/admin_menu',$data);
     }
     
+    function verificationPage($data = ""){
+        $this->load->view('admin/users/verification_page',$data);
+    }
+    
     }
 
 ?>

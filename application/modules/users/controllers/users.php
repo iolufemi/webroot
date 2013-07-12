@@ -70,13 +70,12 @@ $this->load->model('mdl_users');
 $query = $this->mdl_users->_custom_query($mysql_query);
 return $query;
 }
-// TODO: Add Cookie Support
-// TODO: Add ability to login with session
+
 // let's process the submited form data
 function admin_login_submit(){
     $data = $this->get_form_data();
     $username = $data['username'];
-    $password = md5($data['password']);
+    $password = $this->makeHash($data['password']);
     //check for cookie
     $sweetcookie = $this->input->cookie('tll_token');
     $sessiondata = $this->session->all_userdata();
@@ -92,8 +91,7 @@ function admin_login_submit(){
         $role = $getvals->role;
         $id = $getvals->id;
         }
-    }else{
-    if(strlen($sweetcookie) > 0){
+    }elseif(strlen($sweetcookie) > 0){
         $getval = $this->get_where_custom('verificationcode',$sweetcookie);
         //$getvals = $getval->result();
         foreach($getval->result() as $getvals){
@@ -108,27 +106,28 @@ function admin_login_submit(){
     $usercheck = $this->count_where('username',$username);
     $passcheck = $this->count_where('password',$password);
     }
-    }
+    
     // get the email from database
     $useremail = $this->get_where_custom('username',$username);
     //$theemail = $useremail->result();
     foreach($useremail->result() as $theemail){
-    $token = md5($username.$theemail->email);
+    $token = $this->makeHash($username.$theemail->email);
     $role = $theemail->role;
     $id = $theemail->id;
     }
     
-    if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){
-        //cookie active for one week
-        $this->input->set_cookie('token',$token,'604800');
-        
-    }
+    
     if($usercheck > 0 && $passcheck > 0){
         $this->session->set_userdata('token',$token);
         $this->session->set_userdata('role',$role);
         $this->session->set_userdata('user_id',$id);
         $this->session->set_userdata('username',$username);
         /*redirect('users/admin_dashboard');*/
+        if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){
+        //cookie active for one week
+        $this->input->set_cookie('token',$token,'604800');
+        
+    }
         return true;
         /*$data['alert_type'] = 'success';
         $data['alert_message'] = 'You have successfully logged in';
@@ -201,16 +200,17 @@ function register(){
  // process the submited registration details(Create and Update))
 function registration_submit(){
     $data = $this->get_form_data();
-    $password = md5($data['password']);
+    $password = $this->makeHash($data['password']);
     unset($data['password']);
      $data['password'] = $password;
-     $data['verificationcode'] = md5($data['username'].$data['email']);
+     $data['verificationcode'] = $this->makeHash($data['username'].$data['email']);
      $address = trim($data['address']);
      unset($data['address']);
      $data['address'] = $address;
     unset($data['password2']);
     if(isset($data['id']) || @$data['id'] != ""){
         $this->_update($data['id'],$data);
+        redirect('users');
     }else{
         $countuser = $this->count_where('username',$data['username']);
         $countemail = $this->count_where('email',$data['email']);
@@ -218,6 +218,13 @@ function registration_submit(){
             $data['pagetitle'] = "Warninng! This Username or Email has been taken";
             $data['alert_type'] = 'warning';
             $data['alert_message'] = 'Warninng! This Username or Email has been taken';
+            $this->load->module('template');
+           /* $views = array('registration_form');
+            $this->template->buildview($views,$data);*/
+            
+            $this->template->admin_header($data);
+            $this->template->registration_form($data);
+            $this->template->admin_footer($data);
         }else{
             $this->_insert($data);
         $data['pagetitle'] = "Success! You have been registered";
@@ -232,28 +239,53 @@ function registration_submit(){
         $this->email->message('Please, Click on the link to continue. '.base_url('users/verify/'.$data['verificationcode'].'').'');	
         
         $this->email->send();
+        redirect('users');
                 }
     }
-    $this->load->module('template');
-   /* $views = array('registration_form');
-    $this->template->buildview($views,$data);*/
     
-    $this->template->admin_header($data);
-    $this->template->registration_form($data);
-    $this->template->admin_footer($data);
 }
 
 //The user verification function
 
-function verify(){
+function verify()
+{
+    $this->session->sess_destroy();
+    delete_cookie('token');
     $data['status'] = '2';
     $thecode = $this->uri->segment(3);
-    $query = $this->get_where_custom('verificationcode',$thecode);
-    foreach($query->result() as $result){
+    $check = $this->count_where('verificationcode',$thecode);
+    if($check > 0)
+    {
+      $query = $this->get_where_custom('verificationcode',$thecode);
+    foreach($query->result() as $result)
+    {
         $this->_update($result->id,$data);
+    } 
+    $data['pagetitle'] = "Congratulations! Your account has been verified";
+        $data['alert_type'] = 'success';
+        $data['alert_message'] = 'Your account has been verified!<br />Click <a href="'.base_url('users').'">here</a> to login.';
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->verificationPage($data);
+        $this->template->admin_footer($data); 
     }
-    redirect('users');
-    // TODO: continue  here
+    else
+    {
+         $data['pagetitle'] = "Sorry! Your verification code is incorrect!";
+        $data['alert_type'] = 'error';
+        $data['alert_message'] = 'Your verification code is incorrect!<br />Click here to get the correct code.';
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->verificationPage($data);
+        $this->template->admin_footer($data);
+    }
+    
+   
+}
+
+/* Resend Verification Code */
+function sendVerificationCode(){
+    
 }
 
 
@@ -286,6 +318,25 @@ function logout(){
     $this->session->sess_destroy();
     delete_cookie('token');
     redirect('users');
+}
+
+function makeHash($data, $salt = "command555/f33d3r123"){
+    
+    /* Really? I think this is a little crazy, but not too crazy though..  */
+    
+    $secString = "";
+    $hashData = do_hash($data);
+    $hashSalt = do_hash($salt);
+    $secString .= $hashData;
+    $secString .= $hashSalt;
+    $secString .= $hashData;
+    
+    $hash = do_hash($secString);
+    $secHash = do_hash($hash);
+    $token = do_hash($secHash);
+   // echo $token."<br />";
+    return $token;
+    
 }
 
 }
