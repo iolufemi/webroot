@@ -84,7 +84,19 @@
                              
                              }
                              ?> </td>
-                             <td><?php echo anchor("users/register/$row->id",$row->status,array('title' => 'Edit') );?> </td>
+                             <?php 
+                             $this->load->module('status');
+                             $statusq = $this->status->read($row->status);
+                              ?>
+                             <td><?php 
+                             foreach($statusq->result() as $stat_){ 
+                                $status_ = $stat_->status;
+                                }
+                             echo anchor("users/register/$row->id",$status_,array('title' => 'Edit') );
+                             
+                             ?> 
+                             
+                             </td>
                                <td><a href="<?php echo base_url("/users/delete/$row->id"); ?>" class="btn-mini btn-black btn-cross" title="Delete"><span></span>Delete</a></td>
                         </tr>
                         

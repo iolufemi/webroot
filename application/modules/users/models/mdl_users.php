@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 class Mdl_users extends CI_Model {
 
 // to make my job easier, let me copy copy this here

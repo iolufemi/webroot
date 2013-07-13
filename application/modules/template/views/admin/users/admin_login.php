@@ -70,6 +70,18 @@
                             
                         </tr>
                         
+                        <tr>
+                        
+                            <td class="col1">
+                                &nbsp;
+                            </td>
+                            <td class="col2">
+                                <a href="<?php echo base_url('users/lostPassword'); ?>">Forgot Your Password?</a>
+                            </td>
+                            
+                            
+                        </tr>
+                        
                         
                     </table>
                     </form>

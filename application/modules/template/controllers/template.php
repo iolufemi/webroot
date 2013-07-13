@@ -91,6 +91,22 @@ class Template extends MX_Controller {
         $this->load->view('admin/users/verification_page',$data);
     }
     
+    function verificationSent($data = ""){
+        $this->load->view('admin/users/verification_sent',$data);
+    }
+    
+    function verificationForm($data = ""){
+        $this->load->view('admin/users/verification_form',$data);
+    }
+    
+    function passwordResetSent($data = ""){
+        $this->load->view('admin/users/password_reset_sent',$data);
+    }
+    
+    function passwordResetForm($data = ""){
+        $this->load->view('admin/users/password_reset_form',$data);
+    }
+    
     }
 
 ?>

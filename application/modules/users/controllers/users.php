@@ -114,10 +114,18 @@ function admin_login_submit(){
     $token = $this->makeHash($username.$theemail->email);
     $role = $theemail->role;
     $id = $theemail->id;
+    $status = $theemail->status;
     }
     
     
+    
     if($usercheck > 0 && $passcheck > 0){
+        $this->load->module('status');
+        $status_ = $this->status->read($status);
+        foreach($status_->result() as $row_){
+            $allow = $row_->allow;
+        }
+        if($allow == 1){
         $this->session->set_userdata('token',$token);
         $this->session->set_userdata('role',$role);
         $this->session->set_userdata('user_id',$id);
@@ -126,9 +134,16 @@ function admin_login_submit(){
         if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){
         //cookie active for one week
         $this->input->set_cookie('token',$token,'604800');
-        
-    }
+        }
         return true;
+        }else{
+            
+            redirect('users/sendVerificationCode');
+            return false;
+        }
+        
+    
+        
         /*$data['alert_type'] = 'success';
         $data['alert_message'] = 'You have successfully logged in';
         $this->load->module('template');
@@ -273,7 +288,7 @@ function verify()
     {
          $data['pagetitle'] = "Sorry! Your verification code is incorrect!";
         $data['alert_type'] = 'error';
-        $data['alert_message'] = 'Your verification code is incorrect!<br />Click here to get the correct code.';
+        $data['alert_message'] = 'Your verification code is incorrect!<br />Click <a href="'.base_url('users/sendVerificationCode').'">here to get the correct code.';
         $this->load->module('template');
         $this->template->admin_header($data);
         $this->template->verificationPage($data);
@@ -285,6 +300,47 @@ function verify()
 
 /* Resend Verification Code */
 function sendVerificationCode(){
+    $data = $this->get_form_data();
+    $submitedemail = $data['email'];
+    if(isset($submitedemail) && strlen($submitedemail) > 0){
+         $query_ = $this->get_where_custom('email',$submitedemail);
+        foreach($query_->result() as $row_){
+            $verificationcode_ = $row_->verificationcode;
+        }
+        redirect('users/sendVerificationCode/'.$verificationcode_.'');
+    }
+    $code = $this->uri->segment(3);
+    
+    if (isset($code) && strlen($code) > 0){
+        $query = $this->get_where_custom('verificationcode',$code);
+        foreach($query->result() as $row){
+            $verificationcode = $row->verificationcode;
+            $email = $row->email;
+        }
+        // send Email Verification email
+        $this->email->from('your@example.com', 'Your Name');
+        $this->email->to($email); 
+        
+        $this->email->subject('Please, Verify Your Registration On Our Website');
+        $this->email->message('Please, Click on the link to continue. '.base_url('users/verify/'.$verificationcode.'').'');	
+        
+        $this->email->send();
+        
+        $data['pagetitle'] = "Your verification code has been sent to your email address!";
+        $data['alert_type'] = 'success';
+        $data['alert_message'] = 'Please, Check your email for the verification code.';
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->verificationSent($data);
+        $this->template->admin_footer($data);
+        
+    }else{
+        $data['pagetitle'] = "Enter your email address.";
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->verificationForm($data);
+        $this->template->admin_footer($data);
+    }
     
 }
 
@@ -320,7 +376,7 @@ function logout(){
     redirect('users');
 }
 
-function makeHash($data, $salt = "command555/f33d3r123"){
+function makeHash($data, $salt = "hjdf794DHNJ347rm)&^GejsrkD216/*a"){
     
     /* Really? I think this is a little crazy, but not too crazy though..  */
     
@@ -337,6 +393,85 @@ function makeHash($data, $salt = "command555/f33d3r123"){
    // echo $token."<br />";
     return $token;
     
+}
+
+function lostPassword(){
+    $data = $this->get_form_data();
+    $submitedemail = $data['email'];
+    if(isset($submitedemail) && strlen($submitedemail) > 0){
+        $query_ = $this->get_where_custom('email',$submitedemail);
+        foreach($query_->result() as $row_){
+            $verificationcode_ = $row_->verificationcode;
+        }
+        redirect('users/lostPassword/'.$verificationcode_.'');
+    }
+    $code = $this->uri->segment(3);
+    
+    if (isset($code) && strlen($code) > 0){
+        $query = $this->get_where_custom('verificationcode',$code);
+        foreach($query->result() as $row){
+            $verificationcode = $row->verificationcode;
+            $email = $row->email;
+        }
+        // send Email Verification email
+        $this->email->from('your@example.com', 'Your Name');
+        $this->email->to($email); 
+        
+        $this->email->subject('Password Reset');
+        $this->email->message('Please, Click on the link to reset your password. '.base_url('users/newPassword/'.$verificationcode.'').'');	
+        
+        $this->email->send();
+        
+        $data['pagetitle'] = "A password reset link has been sent to your email address!";
+        $data['alert_type'] = 'success';
+        $data['alert_message'] = 'Please, Check your email for the Password Reset Link.';
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->passwordResetSent($data);
+        $this->template->admin_footer($data);
+        
+    }else{
+        $data['pagetitle'] = "Enter your email address.";
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->passwordResetForm($data);
+        $this->template->admin_footer($data);
+    }
+}
+
+function newPassword(){
+    $code = $this->uri->segment(3);
+    if (isset($code) && strlen($code) > 0){
+        $query = $this->get_where_custom('verificationcode',$code);
+        foreach($query->result() as $row){
+            $user_id = $row->id;
+            $email = $row->email;
+            $username = $row->username;
+        }
+        $newpassword = random_string();
+        echo $newpassword;
+        $newpasswordhash = $this->makeHash($newpassword);
+        $data['password'] = $newpasswordhash;
+        $this->_update($user_id,$data);
+        $this->email->from('your@example.com', 'Your Name');
+        $this->email->to($email); 
+        
+        $this->email->subject('Here is your new password');
+        $this->email->message('Please, login with this new details \n Username: '.$username.' \n '.$newpassword.'' );	
+        
+        $this->email->send();
+        
+        $data['pagetitle'] = "A password reset link has been sent to your email address!";
+        $data['alert_type'] = 'success';
+        $data['alert_message'] = 'Please, Check your email for new password.';
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->passwordResetSent($data);
+        $this->template->admin_footer($data);
+        //redirect('users/register/'.$user_id.'');
+    }else{
+        redirect('users');
+    }
 }
 
 }
