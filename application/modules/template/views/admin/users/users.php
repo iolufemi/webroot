@@ -92,7 +92,7 @@
                              foreach($statusq->result() as $stat_){ 
                                 $status_ = $stat_->status;
                                 }
-                             echo anchor("users/register/$row->id",$status_,array('title' => 'Edit') );
+                             echo anchor("users/updateUserStatus/$row->id/$row->status",$status_,array('title' => 'Edit') );
                              
                              ?> 
                              

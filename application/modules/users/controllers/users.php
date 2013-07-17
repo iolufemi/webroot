@@ -474,6 +474,27 @@ function newPassword(){
     }
 }
 
+function updateUserStatus(){
+    $data['id'] = $this->uri->segment(3);
+    $data['status'] = $this->uri->segment(4);
+    $data_ = $this->get_form_data();
+    if(@$data_['statusupdate'] == 'update'){  
+        unset($data_['statusupdate']);
+        unset($data);
+        $data = $data_;
+       
+    $query = $this->_update($data['id'],$data);
+    redirect('users');
+    }else{
+        $data['pagetitle'] = "Update User Status";
+    
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->updateUserStatus($data);
+        $this->template->admin_footer($data);
+    }
+}
+
 }
 
 ?>

@@ -107,6 +107,10 @@ class Template extends MX_Controller {
         $this->load->view('admin/users/password_reset_form',$data);
     }
     
+    function updateUserStatus($data = ""){
+        $this->load->view('admin/users/update_user_status',$data);
+    }
+    
     }
 
 ?>
