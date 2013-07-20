@@ -40,6 +40,13 @@ $query=$this->db->get($table);
 return $query;
 }
 
+function get_where_like($field,$key) {
+$table = $this->get_table();
+$this->db->like($field,$key);
+$query=$this->db->get($table);
+return $query;
+}
+
 function _insert($data){
 $table = $this->get_table();
 $this->db->insert($table, $data);

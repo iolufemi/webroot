@@ -111,6 +111,14 @@ class Template extends MX_Controller {
         $this->load->view('admin/users/update_user_status',$data);
     }
     
+    function suspendedUser($data = ""){
+        $this->load->view('admin/users/suspended',$data);
+    }
+    
+    function updateAvi($data = ""){
+        $this->load->view('admin/users/updateavi',$data);
+    }
+    
     }
 
 ?>

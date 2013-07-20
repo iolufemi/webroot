@@ -31,6 +31,13 @@ $query = $this->mdl_perfectcontroller->get_where_custom($col, $value);
 return $query;
 }
 
+function get_where_like($field,$key){
+$this->load->model('mdl_users');
+$query = $this->mdl_users->get_where_like($field,$key);
+return $query;
+}
+
+
 function _insert($data){
 $this->load->model('mdl_perfectcontroller');
 $this->mdl_perfectcontroller->_insert($data);

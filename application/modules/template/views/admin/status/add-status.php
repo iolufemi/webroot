@@ -40,7 +40,7 @@
                         <tr>
                             <td class="col1">
                                 <label>
-                                    Allow Access( 1 for Yes and 0 for No): </label>
+                                    Allow Access( 1 for Yes, 0 for No and 2 for suspended): </label>
                             </td>
                             <td class="col2">
                                 <input type="text" class="large" name="allow" value="<?php echo(@$allow); ?>" />

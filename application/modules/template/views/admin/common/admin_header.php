@@ -70,7 +70,10 @@
                     <img src="<?php echo base_url(); ?>img/logo.png" alt="Logo" /></div>
                 <?php if($this->session->userdata('token')){ ?><div class="floatright">
                     <div class="floatleft">
-                        <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
+                        <a href="<?php echo base_url('users/addAvi'); ?>" class="avatar" style="content: none;">
+                        <?php $this->load->module('users');
+                        $this->users->theAvi(); ?>
+                        </a></div>
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
                             <li>Hello <?php echo $this->session->userdata('username'); ?></li>

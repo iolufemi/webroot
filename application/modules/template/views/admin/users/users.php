@@ -41,7 +41,13 @@
             }
             
         } ?>
-                    
+                    <?php 
+                    echo form_open('users/search',array('name' => 'search'));
+                    echo form_label('Search Database: ');
+                    echo form_input(array('name' => 'search'),@$search);
+                    echo form_submit(array('class' => 'button', 'name' => 'searchnow'),'Search');
+                    echo form_close();
+                     ?>
                     
                     <table class="data display datatable" id="example">
 					<thead>

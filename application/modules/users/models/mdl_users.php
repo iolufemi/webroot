@@ -7,7 +7,6 @@ class Mdl_users extends CI_Model {
 // to make my job easier, let me copy copy this here
 function __construct() {
 parent::__construct();
-$this->db->cache_on();
 }
 
 function get_table() {
@@ -87,6 +86,13 @@ return $id;
 
 function _custom_query($mysql_query) {
 $query = $this->db->query($mysql_query);
+return $query;
+}
+
+function get_where_like($field,$key) {
+$table = $this->get_table();
+$this->db->like($field,$key);
+$query=$this->db->get($table);
 return $query;
 }
 

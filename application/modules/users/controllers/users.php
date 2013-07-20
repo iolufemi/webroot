@@ -32,6 +32,12 @@ $query = $this->mdl_users->get_where($id);
 return $query;
 }
 
+function get_where_like($field,$key){
+$this->load->model('mdl_users');
+$query = $this->mdl_users->get_where_like($field,$key);
+return $query;
+}
+
 function get_where_custom($col, $value){
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get_where_custom($col, $value);
@@ -74,50 +80,53 @@ return $query;
 // let's process the submited form data
 function admin_login_submit(){
     $data = $this->get_form_data();
-    $username = $data['username'];
-    $password = $this->makeHash($data['password']);
+    $username = @$data['username'];
+    $password = $this->makeHash(@$data['password']);
     //check for cookie
     $sweetcookie = $this->input->cookie('tll_token');
     $sessiondata = $this->session->all_userdata();
-    //print_r($sessiondata);
-    if(@strlen($sessiondata['token']) > 0){
+
+    
+    if(@$sessiondata['token']){
         $getval = $this->get_where_custom('verificationcode',$sessiondata['token']);
-        //$getvals = $getval->result();
         foreach($getval->result() as $getvals){
-        $usercheck = $this->count_where('username',$getvals->username);
-        $passcheck = $this->count_where('password',$getvals->password);
+        $password = $getvals->password;
         $username = $getvals->username;
         $email = $getvals->email;
         $role = $getvals->role;
         $id = $getvals->id;
+        $status = $getvals->status;
         }
-    }elseif(strlen($sweetcookie) > 0){
+        $usercheck = $this->count_where('username',$username);
+        $passcheck = $this->count_where('password',$password);
+        $token = $this->makeHash($username.$email);
+    }elseif(@$sweetcookie){
         $getval = $this->get_where_custom('verificationcode',$sweetcookie);
         //$getvals = $getval->result();
         foreach($getval->result() as $getvals){
-        $usercheck = $this->count_where('username',$getvals->username);
-        $passcheck = $this->count_where('password',$getvals->password);
+        $password = $getvals->password;
         $username = $getvals->username;
         $email = $getvals->email;
         $role = $getvals->role;
         $id = $getvals->id;
+        $status = $getvals->status;
         }
-    }else{
+        $usercheck = $this->count_where('username',$username);
+        $passcheck = $this->count_where('password',$password);
+        $token = $this->makeHash($username.$email);
+    }elseif(empty($sessiondata['token']) && empty($sweetcookie)){
     $usercheck = $this->count_where('username',$username);
     $passcheck = $this->count_where('password',$password);
-    }
-    
-    // get the email from database
+     // get the email from database
     $useremail = $this->get_where_custom('username',$username);
-    //$theemail = $useremail->result();
     foreach($useremail->result() as $theemail){
-    $token = $this->makeHash($username.$theemail->email);
+    $email = $theemail->email;
     $role = $theemail->role;
     $id = $theemail->id;
     $status = $theemail->status;
     }
-    
-    
+    $token = $this->makeHash($username.@$email);
+    }
     
     if($usercheck > 0 && $passcheck > 0){
         $this->load->module('status');
@@ -128,7 +137,7 @@ function admin_login_submit(){
         if($allow == 1){
         $this->session->set_userdata('token',$token);
         $this->session->set_userdata('role',$role);
-        $this->session->set_userdata('user_id',$id);
+       /* $this->session->set_userdata('user_id',$id);*/
         $this->session->set_userdata('username',$username);
         /*redirect('users/admin_dashboard');*/
         if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){
@@ -136,8 +145,11 @@ function admin_login_submit(){
         $this->input->set_cookie('token',$token,'604800');
         }
         return true;
+        }
+        if($allow == 2){
+        redirect('users/suspendedUser');
+        return false;
         }else{
-            
             redirect('users/sendVerificationCode');
             return false;
         }
@@ -161,6 +173,17 @@ function admin_login_submit(){
         
     }
     
+}
+
+function suspendedUser(){
+    $data['pagetitle'] = "Your account has been suspended";
+        $data['alert_type'] = 'warning';
+        $data['alert_message'] = 'Your account has been suspended';
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->suspendedUser($data);
+        $this->template->admin_footer($data);
+        
 }
 
 // get all data in the form fields
@@ -365,9 +388,19 @@ function allusers(){
     $this->template->buildview($views,$data);
 }
 
+function search(){
+    $data = $this->get_form_data();
+    $data['query'] = $this->get_where_like('username',$data['search']);
+    $data['pagetitle'] = "Users";
+    $this->load->module('template');
+    $views = array('users');
+    $this->template->buildview($views,$data);
+}
+
 function delete(){
     $id = $this->uri->segment(3);
     $this->_delete($id);
+    redirect('users');
 }
 
 function logout(){
@@ -493,6 +526,76 @@ function updateUserStatus(){
         $this->template->updateUserStatus($data);
         $this->template->admin_footer($data);
     }
+}
+
+function addAvi(){
+    
+    /*if(isset($data['userfile'])){*/
+    $config['upload_path'] = './uploads/avatars';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+    $config['max_size']	= '1024';
+    $config['file_name']	= $this->session->userdata('token');
+    $config['overwrite']	= TRUE;
+    $this->upload->initialize($config);
+    $upload_ = $this->upload->do_upload();
+    
+    $error = $this->upload->display_errors();
+    if($upload_){
+        $query = $this->get_where_custom('verificationcode',$this->session->userdata('token'));
+        foreach($query->result() as $row){
+            $id = $row->id;
+        }
+        $upload_data = $this->upload->data();
+        $fullpath = $upload_data['file_name'];
+        $data['avatar'] = $fullpath;
+        $this->_update($id,$data);
+        redirect('users');
+    }else{
+        $data['alert_type'] = 'error';
+        $data['alert_message'] = $error;
+    }
+   /* }*/
+   $data['pagetitle'] = "Update Your Avatar";
+    $this->load->module('template');
+    $this->template->buildview(array('updateAvi'),$data);
+}
+
+function getAvi($width,$height){
+    $query = $this->get_where_custom('verificationcode',$this->session->userdata('token'));
+    foreach($query->result() as $row){
+        $avi = $row->avatar;
+    }
+    if($avi){
+    $config['image_library'] = 'gd2';
+    $config['source_image']	= 'uploads/avatars/'.$avi.'';//$aviurl;
+    $config['create_thumb'] = TRUE;
+    $config['maintain_ratio'] = TRUE;
+    $config['width']	 = $width;
+    $config['height']	= $height;
+    $config['thumb_marker']	= '_'.$width.'by'.$height.'';
+    
+    $this->load->library('image_lib', $config); 
+    
+    $this->image_lib->resize();
+    $urlarray = explode('.',$avi);
+    $urlarray['0'] .= '_'.$width.'by'.$height.'';
+    $aviurlnew = implode('.',$urlarray);
+    $aviurl = base_url('uploads/avatars/'.$aviurlnew.'');
+    return $aviurl;
+    }else{
+        
+        return false;
+    }
+}
+
+function theAvi(){
+    $aviurl = $this->getAvi(27,27);
+    if(!$aviurl){
+    echo '<img src="'.base_url('img/img-profile.jpg').'" class = "avi"  alt="Profile Pic" />';
+    }else{
+    echo '<img src="'.$aviurl.'" class = "avi"  alt="Profile Pic" />';
+    }
+    return true;
 }
 
 }

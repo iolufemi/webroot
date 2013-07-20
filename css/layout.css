@@ -69,7 +69,7 @@ h1 a {
 #branding a:hover{color:#fff;}
 
 #branding a:before{content:" | "; color:#fff;}
-
+#branding a.avatar:before{content:none; color:#fff;}
 #branding ul, #branding ul li{margin:0px; padding:0px; }
 #branding li{padding:0px 0px 0px 0px !important;}
 .top-10{margin-top:-10px;}
