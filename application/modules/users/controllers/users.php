@@ -325,6 +325,7 @@ function register(){
             $data['email'] = $row->email;
             $data['phone'] = $row->phone;
             $data['address'] = $row->address;
+            $data['role'] = $row->role;
         }
     }else{
         $data['pagetitle'] = "Register";
@@ -508,9 +509,14 @@ function read($id){
  * get all user data from db
  * @return object
  */
-function read_all(){
-    $result = $this->get('id');
+function read_all($limit,$offset){
+    $result = $this->get_with_limit($limit,$offset,'id');
     return $result;
+}
+
+function all(){
+    $query = $this->get('id');
+    return $query;
 }
 
 /**
@@ -519,10 +525,20 @@ function read_all(){
  * @return
  */
 function allusers(){
-    $data['query'] = $this->read_all();
+    $offset = $this->uri->segment(3);
+    if(!$offset){
+        $offset = 0;
+    }
+    $allusers = $this->all();
+    $data['query'] = $this->read_all(100,$offset);
     $data['pagetitle'] = "Users";
     $this->load->module('template');
     $views = array('users');
+    $config['base_url'] = base_url('users/allusers/');
+    $config['total_rows'] = count($allusers->result('array'));
+    $config['per_page'] = 100;     
+    $this->pagination->initialize($config);     
+    $data['pagination'] = $this->pagination->create_links();
     $this->template->buildview($views,$data);
 }
 
@@ -534,6 +550,15 @@ function allusers(){
 function search(){
     $data = $this->get_form_data();
     $data['query'] = $this->get_where_like('username',$data['search']);
+    $data['pagetitle'] = "Users";
+    $this->load->module('template');
+    $views = array('users');
+    $this->template->buildview($views,$data);
+}
+
+function searchemail(){
+    $data = $this->get_form_data();
+    $data['query'] = $this->get_where_like('email',$data['email']);
     $data['pagetitle'] = "Users";
     $this->load->module('template');
     $views = array('users');
@@ -753,6 +778,10 @@ function getAvi($width,$height){
         $avi = $row->avatar;
     }
     if($avi){
+    $urlarray = explode('.',$avi);
+    $urlarray['0'] .= '_'.$width.'by'.$height.'';
+    $aviurlnew = implode('.',$urlarray);
+    
     $config['image_library'] = 'gd2';
     $config['source_image']	= 'uploads/avatars/'.$avi.'';//$aviurl;
     $config['create_thumb'] = TRUE;
@@ -764,9 +793,7 @@ function getAvi($width,$height){
     $this->load->library('image_lib', $config); 
     
     $this->image_lib->resize();
-    $urlarray = explode('.',$avi);
-    $urlarray['0'] .= '_'.$width.'by'.$height.'';
-    $aviurlnew = implode('.',$urlarray);
+    
     $aviurl = base_url('uploads/avatars/'.$aviurlnew.'');
     return $aviurl;
     }else{
@@ -788,6 +815,52 @@ function theAvi(){
     echo '<img src="'.$aviurl.'" class = "avi"  alt="Profile Pic" />';
     }
     return true;
+}
+
+/**
+ * Users::updateUserRole()
+ * generates view for changing a user role
+ * @return
+ */
+function updateUserRole(){
+    $data['id'] = $this->uri->segment(3);
+    $data['role'] = $this->uri->segment(4);
+    $data_ = $this->get_form_data();
+    if(@$data_['roleupdate'] == 'update'){  
+        unset($data_['roleupdate']);
+        unset($data);
+        $data = $data_;
+       
+    $query = $this->_update($data['id'],$data);
+    redirect('users');
+    }else{
+        $data['pagetitle'] = "Update User Role";
+    
+        $this->load->module('template');
+        $this->template->admin_header($data);
+        $this->template->updateUserRole($data);
+        $this->template->admin_footer($data);
+    }
+}
+
+/**
+ * Users::accessLocker()
+ * 
+ * @param mixed $role
+ * @return boolean
+ */
+function accessLocker($role){
+    $userrole = $this->session->userdata('role');
+    if($role != $userrole){
+        $data['alert_type'] = 'error';
+        $data['alert_message'] = 'You do not have sufficient permission to access this page.<br /> Contact Administrator.';
+        $this->load->module('template');
+        $this->template->accessDenied($data);
+        return false;
+    }else{
+        return true;
+    }
+    
 }
 
 }

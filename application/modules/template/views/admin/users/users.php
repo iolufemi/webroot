@@ -1,3 +1,4 @@
+
         <script src="<?php echo base_url(); ?>js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url(); ?>js/table/jquery.dataTables.min.js" type="text/javascript"></script>
     <!-- END: load jquery -->
@@ -42,13 +43,19 @@
             
         } ?>
                     <?php 
-                    echo form_open('users/search',array('name' => 'search'));
-                    echo form_label('Search Database: ');
+                    echo form_open('users/search',array('name' => 'search', 'method' => 'post', 'class' => 'floatleft', 'style' => 'margin-right:20px;'));
+                    echo form_label('Search by Username: ');
                     echo form_input(array('name' => 'search'),@$search);
-                    echo form_submit(array('class' => 'button', 'name' => 'searchnow'),'Search');
+                    echo form_submit(array('class' => 'btn', 'name' => 'searchnow'),'Search');
                     echo form_close();
                      ?>
-                    
+                    <?php 
+                    echo form_open('users/searchemail',array('name' => 'searchemail', 'method' => 'post' , 'class' => 'floatleft'));
+                    echo form_label('Search by Email: ');
+                    echo form_input(array('name' => 'email'),@$email);
+                    echo form_submit(array('class' => 'btn', 'name' => 'searchnow'),'Search');
+                    echo form_close();
+                     ?>
                     <table class="data display datatable" id="example">
 					<thead>
 						<tr>
@@ -72,7 +79,7 @@
                     foreach($query->result() as $row){ ?>
 						<tr class="<?php if($i == 0){echo "odd";}
                         if($i == 1){echo "even";} ?> gradeX">
-							<td><?php echo $ii/*anchor("roles/create/$row->id",$row->id,array('title' => 'Edit') )*/;?></td>
+							<td><?php echo anchor("roles/create/$row->id",$row->id,array('title' => 'Edit') );?></td>
 							<td><?php echo anchor("users/register/$row->id",$row->firstname,array('title' => 'Edit') );?></td>
 							<td><?php echo anchor("users/register/$row->id",$row->lastname,array('title' => 'Edit') );?> </td>
 	                         <td><?php echo anchor("users/register/$row->id",$row->username,array('title' => 'Edit') );?> </td>  
@@ -86,7 +93,7 @@
                              foreach($dbq->result() as $resultr){
                                 
                              
-                             echo anchor("users/register/$row->id",$resultr->role,array('title' => 'Edit') );
+                             echo anchor("users/updateUserRole/$row->id/$row->role",$resultr->role,array('title' => 'Edit') );
                              
                              }
                              ?> </td>
@@ -116,6 +123,7 @@
                         } ?>
 					</tbody>
 				</table>
+                <p class="paginate"><?php echo @$pagination; ?></p>
                     
                     
                     

@@ -30,7 +30,7 @@ class Template extends MX_Controller {
    * @param bool $menu
    * @return
    */
-  function buildview($views,$data = "",$menu = true){
+  function buildview($views,$data = "",$menu = true,$accesslevel = 1){
     $this->load->module('users');           
     
     $status = $this->users->admin_login_submit();
@@ -47,9 +47,12 @@ class Template extends MX_Controller {
         
     }else{
         $this->admin_menu($data);
-    } 
+    }
+    $access = $this->users->accessLocker($accesslevel);
+    if($access){
     foreach($views as $view){
         $this->$view($data);
+    }
     }
     }    
     $this->admin_footer($data);
@@ -250,6 +253,16 @@ class Template extends MX_Controller {
     }
     
     /**
+     * Template::accessDenied()
+     * 
+     * @param string $data
+     * @return
+     */
+    function accessDenied($data = ""){
+        $this->load->view('admin/users/accessdenied',$data);
+    }
+    
+    /**
      * Template::updateAvi()
      * 
      * @param string $data
@@ -257,6 +270,16 @@ class Template extends MX_Controller {
      */
     function updateAvi($data = ""){
         $this->load->view('admin/users/updateavi',$data);
+    }
+    
+       /**
+     * Template::updateUserRole()
+     * 
+     * @param string $data
+     * @return
+     */
+    function updateUserRole($data = ""){
+        $this->load->view('admin/users/update_user_role',$data);
     }
     
     }

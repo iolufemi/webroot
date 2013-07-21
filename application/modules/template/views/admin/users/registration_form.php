@@ -110,33 +110,10 @@
                                 </textarea>
                             </td>
                         </tr>
+                      
                         <tr>
                             <td class="col1">
-                                <label>
-                                    Role: </label>
-                            </td>
-                            <td class="col2">
-                                <select size="1" name="role">
-                                <?php 
-                                
-                                $this->load->module('roles');
-                                $roles = $this->roles->read_all();
-                                
-                                foreach($roles->result() as $role){
-                                    ?>
-                                    <option value="<?php echo $role->id; ?>"><?php echo $role->role; ?></option>
-                                    <?php
-                                }
-                                
-                                
-                                 ?>
-                                	
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">
-                            
+                                <input type="hidden" name="role" value="<?php if(!isset($role)){echo 3;}else{ echo $role;} ?>" />
                                 &nbsp;<?php if(isset($id) || @$id != ""){ ?>
                                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
                                 <?php } ?>
