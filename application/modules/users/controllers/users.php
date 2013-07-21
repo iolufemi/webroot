@@ -2,82 +2,175 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Users
+ * User class that handles all basic user operation. depends on the role class and the status class
+ * @package   
+ * @author Olanipekun Olufemi
+ * @copyright Olanipekun Olufemi
+ * @version 2013
+ * @access public
+ */
 class Users extends MX_Controller
 {
     
-// To make my job easier, let me copy copy this.
+/**
+ * Users::__construct()
+ * 
+ * @return
+ */
 function __construct(){
 parent::__construct();
 }
-//this handles the module according to codeigniter
+
+/**
+ * Users::index()
+ * 
+ * @return
+ */
 function index(){
    $this->allusers();
 }
 
+/**
+ * Users::get()
+ * 
+ * @param mixed $order_by
+ * @return
+ */
 function get($order_by){
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get($order_by);
 return $query;
 }
 
+/**
+ * Users::get_with_limit()
+ * 
+ * @param mixed $limit
+ * @param mixed $offset
+ * @param mixed $order_by
+ * @return
+ */
 function get_with_limit($limit, $offset, $order_by) {
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get_with_limit($limit, $offset, $order_by);
 return $query;
 }
 
+/**
+ * Users::get_where()
+ * 
+ * @param mixed $id
+ * @return
+ */
 function get_where($id){
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get_where($id);
 return $query;
 }
 
+/**
+ * Users::get_where_like()
+ * 
+ * @param mixed $field
+ * @param mixed $key
+ * @return
+ */
 function get_where_like($field,$key){
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get_where_like($field,$key);
 return $query;
 }
 
+/**
+ * Users::get_where_custom()
+ * 
+ * @param mixed $col
+ * @param mixed $value
+ * @return
+ */
 function get_where_custom($col, $value){
 $this->load->model('mdl_users');
 $query = $this->mdl_users->get_where_custom($col, $value);
 return $query;
 }
 
+/**
+ * Users::_insert()
+ * 
+ * @param mixed $data
+ * @return
+ */
 function _insert($data){
 $this->load->model('mdl_users');
 $this->mdl_users->_insert($data);
 }
 
+/**
+ * Users::_update()
+ * 
+ * @param mixed $id
+ * @param mixed $data
+ * @return
+ */
 function _update($id, $data){
 $this->load->model('mdl_users');
 $this->mdl_users->_update($id, $data);
 }
 
+/**
+ * Users::_delete()
+ * 
+ * @param mixed $id
+ * @return
+ */
 function _delete($id){
 $this->load->model('mdl_users');
 $this->mdl_users->_delete($id);
 }
 
+/**
+ * Users::count_where()
+ * 
+ * @param mixed $column
+ * @param mixed $value
+ * @return
+ */
 function count_where($column, $value) {
 $this->load->model('mdl_users');
 $count = $this->mdl_users->count_where($column, $value);
 return $count;
 }
 
+/**
+ * Users::get_max()
+ * 
+ * @return
+ */
 function get_max() {
 $this->load->model('mdl_users');
 $max_id = $this->mdl_users->get_max();
 return $max_id;
 }
 
+/**
+ * Users::_custom_query()
+ * 
+ * @param mixed $mysql_query
+ * @return
+ */
 function _custom_query($mysql_query) {
 $this->load->model('mdl_users');
 $query = $this->mdl_users->_custom_query($mysql_query);
 return $query;
 }
 
-// let's process the submited form data
+/**
+ * Users::admin_login_submit()
+ * Processes the login process
+ * @return boolean
+ */
 function admin_login_submit(){
     $data = $this->get_form_data();
     $username = @$data['username'];
@@ -175,6 +268,11 @@ function admin_login_submit(){
     
 }
 
+/**
+ * Users::suspendedUser()
+ * Generates the view to suspend a user
+ * @return 
+ */
 function suspendedUser(){
     $data['pagetitle'] = "Your account has been suspended";
         $data['alert_type'] = 'warning';
@@ -187,6 +285,11 @@ function suspendedUser(){
 }
 
 // get all data in the form fields
+/**
+ * Users::get_form_data()
+ * Gets all submited form post data as an array
+ * @return array
+ */
 function get_form_data(){
     $data = $this->input->post();
     return $data;
@@ -202,6 +305,11 @@ function get_form_data(){
 
 
 // display the registration page
+/**
+ * Users::register()
+ * Generates the registration form view
+ * @return
+ */
 function register(){
     $id = $this->uri->segment(3);
     
@@ -236,6 +344,11 @@ function register(){
 }
 
  // process the submited registration details(Create and Update))
+/**
+ * Users::registration_submit()
+ * Process the registration data
+ * @return
+ */
 function registration_submit(){
     $data = $this->get_form_data();
     $password = $this->makeHash($data['password']);
@@ -283,8 +396,13 @@ function registration_submit(){
     
 }
 
-//The user verification function
 
+
+/**
+ * Users::verify()
+ * Generates the verification view 
+ * @return
+ */
 function verify()
 {
     $this->session->sess_destroy();
@@ -321,7 +439,11 @@ function verify()
    
 }
 
-/* Resend Verification Code */
+/**
+ * Users::sendVerificationCode()
+ * Let user request for his/her verification code.
+ * @return
+ */
 function sendVerificationCode(){
     $data = $this->get_form_data();
     $submitedemail = $data['email'];
@@ -369,17 +491,33 @@ function sendVerificationCode(){
 
 
 //CRUD Read 
+/**
+ * Users::read()
+ * get user data by id form db
+ * @param mixed $id
+ * @return object
+ */
 function read($id){
     $data = $this->get_where($id);
     return $data;
 }
 
 //CRUD Read All
+/**
+ * Users::read_all()
+ * get all user data from db
+ * @return object
+ */
 function read_all(){
     $result = $this->get('id');
     return $result;
 }
 
+/**
+ * Users::allusers()
+ * generates all user view
+ * @return
+ */
 function allusers(){
     $data['query'] = $this->read_all();
     $data['pagetitle'] = "Users";
@@ -388,6 +526,11 @@ function allusers(){
     $this->template->buildview($views,$data);
 }
 
+/**
+ * Users::search()
+ * searches for a user in the db and generates the view
+ * @return
+ */
 function search(){
     $data = $this->get_form_data();
     $data['query'] = $this->get_where_like('username',$data['search']);
@@ -397,18 +540,35 @@ function search(){
     $this->template->buildview($views,$data);
 }
 
+/**
+ * Users::delete()
+ * deletes a user
+ * @return
+ */
 function delete(){
     $id = $this->uri->segment(3);
     $this->_delete($id);
     redirect('users');
 }
 
+/**
+ * Users::logout()
+ * logout a user
+ * @return
+ */
 function logout(){
     $this->session->sess_destroy();
     delete_cookie('token');
     redirect('users');
 }
 
+/**
+ * Users::makeHash()
+ * generate a secure hash string from a sring and a salt
+ * @param mixed $data
+ * @param string $salt
+ * @return string
+ */
 function makeHash($data, $salt = "hjdf794DHNJ347rm)&^GejsrkD216/*a"){
     
     /* Really? I think this is a little crazy, but not too crazy though..  */
@@ -428,6 +588,11 @@ function makeHash($data, $salt = "hjdf794DHNJ347rm)&^GejsrkD216/*a"){
     
 }
 
+/**
+ * Users::lostPassword()
+ * let user request for a new password
+ * @return
+ */
 function lostPassword(){
     $data = $this->get_form_data();
     $submitedemail = $data['email'];
@@ -472,6 +637,11 @@ function lostPassword(){
     }
 }
 
+/**
+ * Users::newPassword()
+ * generates a new password and sends it to the user
+ * @return
+ */
 function newPassword(){
     $code = $this->uri->segment(3);
     if (isset($code) && strlen($code) > 0){
@@ -507,6 +677,11 @@ function newPassword(){
     }
 }
 
+/**
+ * Users::updateUserStatus()
+ * generates view for changing a user status
+ * @return
+ */
 function updateUserStatus(){
     $data['id'] = $this->uri->segment(3);
     $data['status'] = $this->uri->segment(4);
@@ -528,6 +703,11 @@ function updateUserStatus(){
     }
 }
 
+/**
+ * Users::addAvi()
+ * generates view to upload an avatar picture
+ * @return
+ */
 function addAvi(){
     
     /*if(isset($data['userfile'])){*/
@@ -560,6 +740,13 @@ function addAvi(){
     $this->template->buildview(array('updateAvi'),$data);
 }
 
+/**
+ * Users::getAvi()
+ * gets the current user avatar
+ * @param mixed $width
+ * @param mixed $height
+ * @return string
+ */
 function getAvi($width,$height){
     $query = $this->get_where_custom('verificationcode',$this->session->userdata('token'));
     foreach($query->result() as $row){
@@ -588,6 +775,11 @@ function getAvi($width,$height){
     }
 }
 
+/**
+ * Users::theAvi()
+ * generates html tag for the avatar image and echos it.
+ * @return boolean
+ */
 function theAvi(){
     $aviurl = $this->getAvi(27,27);
     if(!$aviurl){

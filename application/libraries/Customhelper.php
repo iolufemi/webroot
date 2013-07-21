@@ -1,7 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
+/**
+ * Customhelper
+ * 
+ * @package   
+ * @author Olanipekun Olufemi 
+ * @copyright Olanipekun Olufemi 
+ * @version 2013
+ * @access public
+ */
 class Customhelper{
     
+/**
+ * Customhelper::notification()
+ * 
+ * @param mixed $message
+ * @param string $type
+ * @return
+ */
 function notification($message, $type='info'){
     switch($type){
         case 'info':
@@ -40,49 +56,45 @@ function notification($message, $type='info'){
                             return TRUE;
 }
 
+
 /**
- * toLetLagos::warning()
- * 
- * Displays a warning
+ * Customhelper::warning()
  * 
  * @param mixed $message
- * @return boolean
+ * @return
  */
 function warning($message){
     $this->notification($message,"warning");
     return TRUE;
 }
 
+
 /**
- * toLetLagos::info()
- * 
- * Displays an information
+ * Customhelper::info()
  * 
  * @param mixed $message
- * @return boolean
+ * @return
  */
 function info($message){
     $this->notification($message,"info");
     return TRUE;
 }
 
+
 /**
- * toLetLagos::success()
- * 
- * Displays a success message
+ * Customhelper::success()
  * 
  * @param mixed $message
- * @return boolean
+ * @return
  */
 function success($message){
     $this->notification($message,"success");
     return TRUE;
 }
 
+
 /**
- * toLetLagos::error()
- * 
- * Displays an error
+ * Customhelper::error()
  * 
  * @param mixed $message
  * @return
