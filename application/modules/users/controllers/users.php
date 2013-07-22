@@ -845,7 +845,7 @@ function updateUserRole(){
 
 /**
  * Users::accessLocker()
- * 
+ * use 0 to accept all users and the respective role id for other users
  * @param mixed $role
  * @return boolean
  */
