@@ -852,11 +852,15 @@ function updateUserRole(){
 function accessLocker($role){
     $userrole = $this->session->userdata('role');
     if($role != $userrole){
+        if($role == 0){
+            return true;
+        }else{
         $data['alert_type'] = 'error';
         $data['alert_message'] = 'You do not have sufficient permission to access this page.<br /> Contact Administrator.';
         $this->load->module('template');
         $this->template->accessDenied($data);
         return false;
+        }
     }else{
         return true;
     }
