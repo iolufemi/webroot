@@ -25,6 +25,7 @@ property images<br />
 property status<br />
 messages<br />
 recommend property to a friend<br />
+give each user a subdomain<br />
 
 </p>
 <b> get the db in the db folder, edit db settings in application/config/database
@@ -33,10 +34,10 @@ login with username: admin password:password123 </b>
 Rules:</br>
 one db:table to a module eg, a table named foo must have a module named foo</br>
 all module that has a db must have cruds where s is search</br>
-please, use the template module provied to render view files. you can improve on it tho.
+please, use the template module provided to render view files. you can improve on it tho.
 
 </p>
 <cite>Code is Poetry.</cite>
-<cite>May the force be with all.</cite>
+<cite>May the force be with us all.</cite>
 </body>
 </html>
