@@ -33,8 +33,11 @@ class Template extends MX_Controller {
   function buildview($views,$data = "",$menu = true,$accesslevel = 1){
     $this->load->module('users');           
     
-    $status = $this->users->admin_login_submit();
+    $status = $this->session->userdata('token');
     if(!$status){
+        $status2 = $this->users->admin_login_submit();
+    }
+    if(!$status && !$status2){
         
         $data['alert_type'] = 'warning';
         $data['alert_message'] = 'Please, Login First';
@@ -280,6 +283,10 @@ class Template extends MX_Controller {
      */
     function updateUserRole($data = ""){
         $this->load->view('admin/users/update_user_role',$data);
+    }
+    
+    function createProperty($data = ""){
+        $this->load->view('admin/properties/add_property_form',$data);
     }
     
     }

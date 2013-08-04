@@ -5,7 +5,7 @@
     </div>
     <div id="site_info">
         <p>
-            Copyright <a href="#">BlueWhale Admin</a>. All Rights Reserved.
+            Copyright &COPY; <?php echo date('Y'); ?> <a href="<?php echo base_url(); ?>">The Real Estate APP</a>. All Rights Reserved.
         </p>
     </div>
 </body>

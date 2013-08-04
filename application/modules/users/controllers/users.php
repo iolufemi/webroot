@@ -230,7 +230,7 @@ function admin_login_submit(){
         if($allow == 1){
         $this->session->set_userdata('token',$token);
         $this->session->set_userdata('role',$role);
-       /* $this->session->set_userdata('user_id',$id);*/
+       $this->session->set_userdata('user_id',$id);
         $this->session->set_userdata('username',$username);
         /*redirect('users/admin_dashboard');*/
         if(isset($data['rememberme']) || @$data['rememberme'] == "rememberme"){

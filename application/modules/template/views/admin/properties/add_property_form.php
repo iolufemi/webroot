@@ -1,9 +1,9 @@
 
         
-        <div class="<?php if(!$this->session->userdata('token')){ ?> grid_12 <?php }else{ ?> grid_10 <?php } ?>">
+        <div class="grid_10">
             <div class="box round first fullpage">
                 <h2>
-                    <?php if(!@$id){ ?> Register <?php }else{ ?> Modify User <?php } ?></h2>
+                    Add Property</h2>
                 <div class="block ">
                 <?php if(isset($alert_type)){
             
@@ -27,31 +27,26 @@
             
         } ?>
         
-        <?php
-        
-        
-        
-         ?>
+   
          <!-- TODO: Finish Building this form and the validation. -->
-                    <form action="<?php echo base_url('users/registration_submit'); ?>" method="post" name="registration" id="register">
+                    <?php echo form_open_multipart('properties/create'); ?>
                     <table class="form">
                         <tr>
                             <td class="col1">
                                 <label>
-                                    Username: </label>
+                                    Property Name: </label>
                             </td>
                             <td class="col2">
-                                <input type="text" class="large" name="username" value="<?php echo(@$username); ?>" />
+                                <?php echo form_input('name',@$name,'class = "large"'); ?>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">
                                 <label>
-                                    Password: </label>
+                                    Description: </label>
                             </td>
                             <td class="col2">
-                                <input type="password" class="large" name="password" id="password" value="<?php echo (@$password); ?>" />
-                                <input type="password" class="large" name="password2" value="<?php echo (@$password2); ?>"  />
+                                <?php echo form_textarea('description',@$description,'class = "large" style="width: 85%; height: 100px;"'); ?>
                             </td>
                         </tr>
                         <tr>
@@ -125,7 +120,7 @@
                                        
                         
                     </table>
-                    </form>
+                    <?php echo form_close(); ?>
                 </div>
             </div>
         </div>

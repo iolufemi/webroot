@@ -71,6 +71,34 @@ $query = $this->mdl_properties->_custom_query($mysql_query);
 return $query;
 }
 
+//Let's start cruds here
+
+function create(){
+    $this->load->module('template');
+    
+    $this->template->buildview(array('createProperty'));
+}
+
+function read(){
+    
+}
+
+function readOne(){
+    
+}
+
+function update(){
+    
+}
+
+function delete(){
+    
+}
+
+function search(){
+    
+}
+
 }
 
 ?>
