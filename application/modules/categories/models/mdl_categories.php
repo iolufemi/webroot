@@ -1,13 +1,13 @@
 <?php
 
-class Mdl_propertyimages extends CI_Model {
+class Mdl_categories extends CI_Model {
 
 function __construct() {
 parent::__construct();
 }
 
 function get_table() {
-$table = "propertyimages";
+$table = "categories";
 return $table;
 }
 
