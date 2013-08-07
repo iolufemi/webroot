@@ -11,42 +11,12 @@
                                 <li><a href="<?php echo base_url("status"); ?>">User Status</a> </li>
                             </ul>
                         </li>
-                        <li><a class="menuitem">Menu 2</a>
+                        <li><a class="menuitem" href="<?php echo base_url("properties"); ?>">Properties</a>
                             <ul class="submenu">
-                                <li><a>Submenu 1</a> </li>
-                                <li><a>Submenu 2</a> </li>
-                                <li><a>Submenu 3</a> </li>
-                                <li><a>Submenu 4</a> </li>
-                                <li><a>Submenu 5</a> </li>
-                            </ul>
-                        </li>
-                        <li><a class="menuitem">Menu 3</a>
-                            <ul class="submenu">
-                                <li><a>Submenu 1</a> </li>
-                                <li><a>Submenu 2</a> </li>
-                                <li><a>Submenu 3</a> </li>
-                                <li><a>Submenu 4</a> </li>
-                                <li><a>Submenu 5</a> </li>
-                                <li><a>Submenu 1</a> </li>
-                                <li><a>Submenu 2</a> </li>
-                                <li><a>Submenu 3</a> </li>
-                                <li><a>Submenu 4</a> </li>
-                                <li><a>Submenu 5</a> </li>
-                            </ul>
-                        </li>
-                        <li><a class="menuitem">Menu 4</a>
-                            <ul class="submenu">
-                                <li><a>Submenu 1</a> </li>
-                                <li><a>Submenu 2</a> </li>
-                                <li><a>Submenu 3</a> </li>
-                                <li><a>Submenu 4</a> </li>
-                                <li><a>Submenu 5</a> </li>
-                                <li><a>Submenu 6</a> </li>
-                                <li><a>Submenu 7</a> </li>
-                                <li><a>Submenu 8</a> </li>
-                                <li><a>Submenu 9</a> </li>
-                                <li><a>Submenu 10</a> </li>
-                    
+                                <li><a href="<?php echo base_url("properties"); ?>">All Properties</a> </li>
+                                <li><a href="<?php echo base_url("locations"); ?>">Locations</a> </li>
+                                <li><a href="<?php echo base_url("categories"); ?>">Categories</a> </li>
+
                             </ul>
                         </li>
                     </ul>

@@ -289,6 +289,26 @@ class Template extends MX_Controller {
         $this->load->view('admin/properties/add_property_form',$data);
     }
     
+    function createLocation($data = ""){
+        $this->load->view('admin/locations/add-locations',$data);
+    }
+    
+    function locations($data = ""){
+        $this->load->view('admin/locations/locations',$data);
+    }
+    
+    function createCategory($data = ""){
+        $this->load->view('admin/categories/add-categories',$data);
+    }
+    
+    function categories($data = ""){
+        $this->load->view('admin/categories/categories',$data);
+    }
+    
+    function properties($data = ""){
+        $this->load->view('admin/properties/properties',$data);
+    }
+    
     }
 
 ?>

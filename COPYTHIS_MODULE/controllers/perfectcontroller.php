@@ -71,6 +71,11 @@ $query = $this->mdl_perfectcontroller->_custom_query($mysql_query);
 return $query;
 }
 
+function get_form_data(){
+    $data = $this->input->post();
+    return $data;
+}
+
 }
 
 ?>

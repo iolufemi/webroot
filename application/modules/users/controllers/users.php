@@ -854,6 +854,8 @@ function accessLocker($role){
     if($role != $userrole){
         if($role == 0){
             return true;
+        }elseif($userrole == 1){
+            return true;
         }else{
         $data['alert_type'] = 'error';
         $data['alert_message'] = 'You do not have sufficient permission to access this page.<br /> Contact Administrator.';

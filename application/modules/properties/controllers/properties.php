@@ -7,6 +7,10 @@ function __construct() {
 parent::__construct();
 }
 
+function index(){
+    $this->allproperties();
+}
+
 function get($order_by){
 $this->load->model('mdl_properties');
 $query = $this->mdl_properties->get($order_by);
@@ -73,31 +77,96 @@ return $query;
 
 //Let's start cruds here
 
+function get_form_data(){
+    $data = $this->input->post();
+    return $data;
+}
+// Create and Update
 function create(){
+    $id = $this->uri->segment(3);
+    $data = $this->get_form_data();
+    
+    if(isset($data['name'])){
+        if(isset($data['id'])){
+            $this->_update($data['id'],$data);
+            redirect('properties');
+        }else{
+       
+        $this->_insert($data);
+        $data['alert_type'] = 'success';
+        $data['alert_message'] = 'This Property has been added.';
+        redirect('properties');
+        }
+    }
+    if(is_numeric($id)){
+        $query = $this->read_by_id($id);
+        foreach($query->result() as $row){
+            $data['id'] = $row->id;
+            $data['name'] = $row->name;
+            $data['description'] = $row->description;
+            $data['no_of_rooms'] = $row->no_of_rooms;
+            $data['price'] = $row->price;
+            $data['category'] = $row->category;
+            $data['location'] = $row->location;
+            $data['address'] = $row->address;
+        }
+    }
+    
+    $data['pagetitle'] = "Add Properties";
     $this->load->module('template');
-    
-    $this->template->buildview(array('createProperty'));
+    $this->template->buildview(array('createProperty'),$data);
 }
 
-function read(){
-    
+
+function read_by_id($id){
+    $query = $this->get_where($id);
+    return $query;
 }
 
-function readOne(){
-    
+function read_with_limit($limit,$offset){
+    $result = $this->get_with_limit($limit,$offset,'id');
+    return $result;
 }
 
-function update(){
-    
+function read_all(){
+    $query = $this->get('id');
+    return $query;
+}
+
+function allproperties(){
+    $offset = $this->uri->segment(3);
+    if(!$offset){
+        $offset = 0;
+    }
+    $allproperties = $this->read_all();
+    $data['query'] = $this->read_with_limit(100,$offset);
+    $data['pagetitle'] = "All Properties";
+    $this->load->module('template');
+    $views = array('properties');
+    $config['base_url'] = base_url('properties/allproperties/');
+    $config['total_rows'] = count($allproperties->result('array'));
+    $config['per_page'] = 100;     
+    $this->pagination->initialize($config);     
+    $data['pagination'] = $this->pagination->create_links();
+    $this->template->buildview($views,$data);
 }
 
 function delete(){
-    
+    $id = $this->uri->segment(3);
+    $this->_delete($id);
+    redirect('properties');
 }
 
 function search(){
-    
+    $data = $this->get_form_data();
+    $data['query'] = $this->get_where_like('description',$data['search']);
+    $data['pagetitle'] = "Search Result";
+    $this->load->module('template');
+    $views = array('properties');
+    $this->template->buildview($views,$data);
 }
+
+
 
 }
 

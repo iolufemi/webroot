@@ -37,7 +37,7 @@
                                     Property Name: </label>
                             </td>
                             <td class="col2">
-                                <?php echo form_input('name',@$name,'class = "large"'); ?>
+                                <?php echo form_input('name',@$name,'class = "large required"'); ?>
                             </td>
                         </tr>
                         <tr>
@@ -46,75 +46,100 @@
                                     Description: </label>
                             </td>
                             <td class="col2">
-                                <?php echo form_textarea('description',@$description,'class = "large" style="width: 85%; height: 100px;"'); ?>
+                                <?php echo form_textarea('description',@$description,'class = "large required" style="width: 85%; height: 100px;"'); ?>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">
                                 <label>
-                                    Firstname: </label>
+                                    Number of Rooms: </label>
                             </td>
                             <td class="col2">
-                                <input type="text" class="large" name="firstname" value="<?php echo(@$firstname); ?>" />
+                                <input type="text" class = "large required" name="no_of_rooms" value="<?php echo(@$no_of_rooms); ?>" />
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">
                                 <label>
-                                    Lastname: </label>
+                                    Price: </label>
                             </td>
                             <td class="col2">
-                                <input type="text" class="large" name="lastname" value="<?php echo(@$lastname); ?>" />
+                                <input type="text" class = "large required" name="price" value="<?php echo(@$price); ?>" />
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">
                                 <label>
-                                    Sex: </label>
+                                    Category: </label>
                             </td>
                             <td class="col2">
-                                Male <input type="radio" name="sex" value="male" <?php if(@$sex == 'male'){ ?> checked="yes" <?php }  ?> /> Female <input type="radio" name="sex" value="female" <?php if(@$sex == 'female'){ ?> checked="yes" <?php }  ?>  />
+                            <?php $this->load->module('categories');
+                            $query1 = $this->categories->read_all();
+                             ?>
+                            <select name="category" class = "large required">
+                            <?php foreach($query1->result() as $row){ ?>
+                                <option value="<?php echo $row->id; ?>" <?php if($row->id == @$category){ echo "selected='yes'";} ?> ><?php echo $row->category; ?></option>
+                            <?php } ?>
+                            </select>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="col1">
-                                <label>
-                                    Email: </label>
-                            </td>
-                            <td class="col2">
-                                <input type="text" class="large" name="email" value="<?php echo(@$email); ?>" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">
-                                <label>
-                                    Phone Number: </label>
-                            </td>
-                            <td class="col2">
-                                <input type="text" class="large" name="phone" value="<?php echo(@$phone); ?>" />
-                            </td>
-                        </tr>
+                      
                         <tr>
                             <td class="col1">
                                 <label>
                                     Address: </label>
                             </td>
                             <td class="col2">
-                                <textarea class="large" name="address" style="width: 85%; height: 100px;" >
+                                <textarea class = "large required" name="address" style="width: 85%; height: 100px;" >
                                 <?php echo(@$address); ?>
                                 </textarea>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Location: </label>
+                            </td>
+                            <td class="col2">
+                            <?php $this->load->module('locations');
+                            $query2 = $this->locations->read_all();
+                             ?>
+                            <select name="location" class = "large required">
+                            <?php foreach($query2->result() as $row){ ?>
+                                <option value="<?php echo $row->id; ?>" <?php if($row->id == @$location){ echo "selected='yes'";} ?> ><?php echo $row->location; ?></option>
+                            <?php } ?>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Main Picture: </label>
+                            </td>
+                            <td class="col2">
+                            <?php echo form_upload('mainpicture'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Other Pictures: </label>
+                            </td>
+                            <td class="col2">
+                            <?php echo form_upload('otherpictures[]','','multiple'); ?>
                             </td>
                         </tr>
                       
                         <tr>
                             <td class="col1">
-                                <input type="hidden" name="role" value="<?php if(!isset($role)){echo 3;}else{ echo $role;} ?>" />
+                                
                                 &nbsp;<?php if(isset($id) || @$id != ""){ ?>
                                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
                                 <?php } ?>
                             </td>
                             <td class="col2">
-                                <button class="btn" onclick="$(this).submit()" id="submit">Register</button>
+                                <button class="btn" onclick="$(this).submit()" id="submit">Add Property</button>
                             </td>
                         </tr>
                                        
@@ -125,21 +150,5 @@
             </div>
         </div>
         <script type="text/javascript">
-        $('form#register').validate(
-        {
-            rules:{
-                username: {
-                            required:true
-                            },
-                  password: {
-                            required:true,
-                            minlength:6
-                            },
-                  password2: {
-                            required:true,
-                            equalTo:"#password"
-                            }
-                  }
-        }
-        );        
+        $('form#register').validate();        
         </script>
