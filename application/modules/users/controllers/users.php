@@ -96,6 +96,12 @@ $query = $this->mdl_users->get_where_custom($col, $value);
 return $query;
 }
 
+function get_where_custom_with_limit($col, $value, $limit, $offset, $order_by) {
+$this->load->model('mdl_users');
+$query = $this->mdl_users->get_where_custom_with_limit($col, $value, $limit, $offset, $order_by);
+return $query;
+}
+
 /**
  * Users::_insert()
  * 

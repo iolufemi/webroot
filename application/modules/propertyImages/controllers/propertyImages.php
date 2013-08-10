@@ -71,6 +71,17 @@ $query = $this->mdl_propertyimages->_custom_query($mysql_query);
 return $query;
 }
 
+function create($filename,$property_name){
+    $data['image'] = $filename;
+    $data['property_name'] = $property_name;
+    $data['user_id'] = $this->session->userdata('user_id');
+    $this->_insert($data);
+}
+
+function read(){
+    
+}
+
 }
 
 ?>

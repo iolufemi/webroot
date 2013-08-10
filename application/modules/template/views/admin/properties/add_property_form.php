@@ -29,7 +29,7 @@
         
    
          <!-- TODO: Finish Building this form and the validation. -->
-                    <?php echo form_open_multipart('properties/create'); ?>
+                    <?php echo form_open_multipart('properties/create',array('method' => 'post', 'id' => 'prop')); ?>
                     <table class="form">
                         <tr>
                             <td class="col1">
@@ -90,9 +90,7 @@
                                     Address: </label>
                             </td>
                             <td class="col2">
-                                <textarea class = "large required" name="address" style="width: 85%; height: 100px;" >
-                                <?php echo(@$address); ?>
-                                </textarea>
+                                <textarea class = "large required" name="address" style="width: 85%; height: 100px;"><?php echo(@$address); ?></textarea>
                             </td>
                         </tr>
                         
@@ -112,6 +110,7 @@
                             </select>
                             </td>
                         </tr>
+                        <?php //if(!isset($id) || @$id == ""){ ?>
                         <tr>
                             <td class="col1">
                                 <label>
@@ -130,7 +129,7 @@
                             <?php echo form_upload('otherpictures[]','','multiple'); ?>
                             </td>
                         </tr>
-                      
+                      <?php // } ?>
                         <tr>
                             <td class="col1">
                                 
@@ -150,5 +149,5 @@
             </div>
         </div>
         <script type="text/javascript">
-        $('form#register').validate();        
+        $('form#prop').validate();        
         </script>

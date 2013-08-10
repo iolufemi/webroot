@@ -105,9 +105,7 @@
                                     Address: </label>
                             </td>
                             <td class="col2">
-                                <textarea class="large" name="address" style="width: 85%; height: 100px;" >
-                                <?php echo(@$address); ?>
-                                </textarea>
+                                <textarea class="large" name="address" style="width: 85%; height: 100px;" ><?php echo(@$address); ?></textarea>
                             </td>
                         </tr>
                       

@@ -309,6 +309,10 @@ class Template extends MX_Controller {
         $this->load->view('admin/properties/properties',$data);
     }
     
+    function viewProperty($data = ""){
+        $this->load->view('admin/properties/view_property',$data);
+    }
+    
     }
 
 ?>

@@ -14,6 +14,7 @@
                         <li><a class="menuitem" href="<?php echo base_url("properties"); ?>">Properties</a>
                             <ul class="submenu">
                                 <li><a href="<?php echo base_url("properties"); ?>">All Properties</a> </li>
+                                <li><a href="<?php echo base_url("properties/myproperties"); ?>">My Properties</a> </li>
                                 <li><a href="<?php echo base_url("locations"); ?>">Locations</a> </li>
                                 <li><a href="<?php echo base_url("categories"); ?>">Categories</a> </li>
 

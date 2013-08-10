@@ -71,6 +71,12 @@ $query = $this->mdl_perfectcontroller->_custom_query($mysql_query);
 return $query;
 }
 
+function get_where_custom_with_limit($col, $value, $limit, $offset, $order_by) {
+$this->load->model('mdl_perfectcontroller');
+$query = $this->mdl_perfectcontroller->get_where_custom_with_limit($col, $value, $limit, $offset, $order_by);
+return $query;
+}
+
 function get_form_data(){
     $data = $this->input->post();
     return $data;

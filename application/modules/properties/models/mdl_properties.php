@@ -26,6 +26,15 @@ $query=$this->db->get($table);
 return $query;
 }
 
+function get_where_custom_with_limit($col, $value, $limit, $offset, $order_by) {
+$table = $this->get_table();
+$this->db->where($col, $value);
+$this->db->limit($limit, $offset);
+$this->db->order_by($order_by);
+$query=$this->db->get($table);
+return $query;
+}
+
 function get_where($id){
 $table = $this->get_table();
 $this->db->where('id', $id);
