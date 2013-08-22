@@ -97,11 +97,12 @@ function create(){
         $error = "Error for Main Picture: ";
         $data['mainpicture'] = $this->input->post('mainpicture');
         $data['otherpictures'] = $_FILES['otherpictures'];
+        $itag = random_string('unique');
         if(isset($data['mainpicture'])){
         $config['upload_path'] = './uploads/property_images';
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size']	= '2128';
-        $config['file_name']	= $this->session->userdata('token')."_mainpicture_".$data['name']."_".random_string();
+        $config['file_name']	= $this->session->userdata('token')."_mainpicture_".$data['name']."_".$itag;
         $config['overwrite']	= TRUE;
         $this->upload->initialize($config);
         $upload_ = $this->upload->do_upload('mainpicture');
