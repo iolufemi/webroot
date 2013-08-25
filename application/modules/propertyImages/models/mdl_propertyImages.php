@@ -93,6 +93,12 @@ $query = $this->db->query($mysql_query);
 return $query;
 }
 
+function _update_where($col,$col_val, $data){
+$table = $this->get_table();
+$this->db->where($col, $col_val);
+$this->db->update($table, $data);
+}
+
 }
 
 ?>

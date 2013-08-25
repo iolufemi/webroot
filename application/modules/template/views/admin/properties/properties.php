@@ -55,7 +55,7 @@
 						<tr>
 							<th>ID</th>
 							<th>Name</th>
-                            <th>Number of Rooms</th>
+                            <!--<th>Number of Rooms</th>-->
                             <th>Price</th>
                             <th>Category</th>
                             <th>Location</th>
@@ -72,7 +72,7 @@
                         if($i == 1){echo "even";} ?> gradeX">
 							<td><?php echo $ii; ?></td>
 							<td><?php echo anchor("properties/create/$row->id",$row->name,array('title' => 'Edit') );?></td>
-							<td><?php echo anchor("properties/create/$row->id",$row->no_of_rooms,array('title' => 'Edit') );?> </td>
+							<!--<td><?php echo anchor("properties/create/$row->id",$row->no_of_rooms,array('title' => 'Edit') );?> </td>-->
 	                         <td><?php echo anchor("properties/create/$row->id",$row->price,array('title' => 'Edit') );?> </td>  
                               
                              <?php 

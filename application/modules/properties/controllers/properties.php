@@ -58,6 +58,11 @@ $this->load->model('mdl_properties');
 $this->mdl_properties->_update($id, $data);
 }
 
+function _update_where($col,$col_val, $data){
+    $this->load->model('mdl_properties');
+    $this->mdl_properties->_update_where($col,$col_val, $data);
+}
+
 function _delete($id){
 $this->load->model('mdl_properties');
 $this->mdl_properties->_delete($id);
@@ -97,22 +102,27 @@ function create(){
         $error = "Error for Main Picture: ";
         $data['mainpicture'] = $this->input->post('mainpicture');
         $data['otherpictures'] = $_FILES['otherpictures'];
-        $itag = random_string('unique');
+        if(!isset($data['tag'])){
+           $itag = random_string('unique'); 
+        }else{
+            $itag = $data['tag'];
+        }
+        
         if(isset($data['mainpicture'])){
         $config['upload_path'] = './uploads/property_images';
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size']	= '2128';
-        $config['file_name']	= $this->session->userdata('token')."_mainpicture_".$data['name']."_".$itag;
+        $config['file_name']	= $this->session->userdata('token')."_mainpicture_".$data['name']."_".random_string('unique');
         $config['overwrite']	= TRUE;
         $this->upload->initialize($config);
         $upload_ = $this->upload->do_upload('mainpicture');
         $error .= $this->upload->display_errors();
-        if($upload_){
+        /*if($upload_){
             $upload_data = $this->upload->data();
             $fullpath = $upload_data['file_name'];
             $this->load->module('propertyimages');
-            $this->propertyimages->create($fullpath,$data['name']);
-        }
+            $this->propertyimages->create($fullpath,$itag,true);
+        }*/
        }
        $error .= "<br /> Errors for Other Pictures: ";
        if(isset($data['otherpictures'])){
@@ -134,24 +144,39 @@ function create(){
             $error .= "File too large for ".$data['otherpictures']['name'][$cttt]."<br />";
           $e2 = 1;
           }else{
-         $data['otherpictures']['name'][$cttt] = $this->session->userdata('token')."_otherpictures_".$data['name']."_".random_string().".".$split[1];
+         $data['otherpictures']['name'][$cttt] = $this->session->userdata('token')."_otherpictures_".$data['name']."_".random_string('unique').".".$split[1];
         $move = move_uploaded_file($data['otherpictures']['tmp_name'][$cttt],'./uploads/property_images/'.$data['otherpictures']['name'][$cttt].'');
+      
+        }
         if($move){
             $this->load->module('propertyimages');
-            $this->propertyimages->create($data['otherpictures']['name'][$cttt],$data['name']);
+            $this->propertyimages->create($data['otherpictures']['name'][$cttt],$itag);
         }
-        }
-        
         }
        }
-       unset($data['mainpicture']);
-       unset($data['otherpictures']);
+       
         //done with images
         if(isset($data['id'])){
+            $upload_data = $this->upload->data();
+            $fullpath = $upload_data['file_name'];
+            $this->load->module('propertyimages');
+            $this->propertyimages->create($fullpath,$itag,true);
+              
+        $data['tag'] = $itag;
+            unset($data['mainpicture']);
+       unset($data['otherpictures']);
             $this->_update($data['id'],$data);
           redirect('properties');
         }else{
         if($upload_){
+         $upload_data = $this->upload->data();
+            $fullpath = $upload_data['file_name'];
+            $this->load->module('propertyimages');
+            $this->propertyimages->create($fullpath,$itag,true);
+              
+        $data['tag'] = $itag;
+        unset($data['mainpicture']);
+       unset($data['otherpictures']);
         $this->_insert($data);
         
         if(isset($e1) || isset($e2)){
@@ -182,6 +207,13 @@ function create(){
             $data['category'] = $row->category;
             $data['location'] = $row->location;
             $data['address'] = $row->address;
+            $data['tag'] = $row->tag;
+            $data['baths'] = $row->baths;
+            $data['security'] = $row->security;
+            $data['power'] = $row->power;
+            $data['water'] = $row->water;
+            $data['goodroad'] = $row->goodroad;
+            $data['hospitability'] = $row->hospitability;
         }
     }
     
@@ -254,6 +286,13 @@ function myproperties(){
     $config['per_page'] = 100;     
     $this->pagination->initialize($config);     
     $data['pagination'] = $this->pagination->create_links();
+    $this->template->buildview($views,$data);
+}
+
+function view_property(){
+        $data['pagetitle'] = "View Property";
+    $this->load->module('template');
+    $views = array('viewProperty');
     $this->template->buildview($views,$data);
 }
 

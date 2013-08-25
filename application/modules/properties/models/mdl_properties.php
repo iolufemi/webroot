@@ -67,6 +67,12 @@ $this->db->where('id', $id);
 $this->db->update($table, $data);
 }
 
+function _update_where($col,$col_val, $data){
+$table = $this->get_table();
+$this->db->where($col, $col_val);
+$this->db->update($table, $data);
+}
+
 function _delete($id){
 $table = $this->get_table();
 $this->db->where('id', $id);

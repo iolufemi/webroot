@@ -61,6 +61,15 @@
                         <tr>
                             <td class="col1">
                                 <label>
+                                    Number of Baths: </label>
+                            </td>
+                            <td class="col2">
+                                <input type="text" class = "large required" name="baths" value="<?php echo(@$baths); ?>" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
                                     Price: </label>
                             </td>
                             <td class="col2">
@@ -114,6 +123,51 @@
                         <tr>
                             <td class="col1">
                                 <label>
+                                    Security: </label>
+                            </td>
+                            <td class="col2">
+                            0<input name="security" value="<?php echo @$security; ?>" type="range" min="1" max="100" />100
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Power: </label>
+                            </td>
+                            <td class="col2">
+                            0<input name="power" value="<?php echo @$power; ?>" type="range" min="1" max="100" />100
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Water: </label>
+                            </td>
+                            <td class="col2">
+                            0<input name="water" value="<?php echo @$water; ?>" type="range" min="1" max="100" />100
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Good Road: </label>
+                            </td>
+                            <td class="col2">
+                            0<input name="goodroad" value="<?php echo @$goodroad; ?>" type="range" min="1" max="100" />100
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
+                                    Hospitability: </label>
+                            </td>
+                            <td class="col2">
+                            0<input name="hospitability" value="<?php echo @$hospitability; ?>" type="range" min="1" max="100" />100
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col1">
+                                <label>
                                     Main Picture: </label>
                             </td>
                             <td class="col2">
@@ -135,6 +189,7 @@
                                 
                                 &nbsp;<?php if(isset($id) || @$id != ""){ ?>
                                 <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                                <input type="hidden" name="tag" value="<?php echo $tag; ?>" />
                                 <?php } ?>
                             </td>
                             <td class="col2">

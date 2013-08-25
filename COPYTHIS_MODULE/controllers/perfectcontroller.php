@@ -48,6 +48,11 @@ $this->load->model('mdl_perfectcontroller');
 $this->mdl_perfectcontroller->_update($id, $data);
 }
 
+function _update_where($col,$col_val, $data){
+    $this->load->model('mdl_perfectcontroller');
+    $this->mdl_perfectcontroller->_update_where($col,$col_val, $data);
+}
+
 function _delete($id){
 $this->load->model('mdl_perfectcontroller');
 $this->mdl_perfectcontroller->_delete($id);

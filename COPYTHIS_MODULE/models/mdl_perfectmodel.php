@@ -88,6 +88,12 @@ $id=$row->id;
 return $id;
 }
 
+function _update_where($col,$col_val, $data){
+$table = $this->get_table();
+$this->db->where($col, $col_val);
+$this->db->update($table, $data);
+}
+
 function _custom_query($mysql_query) {
 $query = $this->db->query($mysql_query);
 return $query;

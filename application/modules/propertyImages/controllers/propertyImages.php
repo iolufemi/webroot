@@ -65,21 +65,40 @@ $max_id = $this->mdl_propertyimages->get_max();
 return $max_id;
 }
 
+function _update_where($col,$col_val, $data){
+    $this->load->model('mdl_propertyimages');
+    $this->mdl_propertyimages->_update_where($col,$col_val, $data);
+}
+
 function _custom_query($mysql_query) {
 $this->load->model('mdl_propertyimages');
 $query = $this->mdl_propertyimages->_custom_query($mysql_query);
 return $query;
 }
 
-function create($filename,$property_name){
+function create($filename,$tag,$ismain = false){
+    if($ismain){
+        $data['ismain'] = 1;
+    }
     $data['image'] = $filename;
-    $data['property_name'] = $property_name;
+    $data['tag'] = $tag;
     $data['user_id'] = $this->session->userdata('user_id');
     $this->_insert($data);
 }
 
-function read(){
-    
+function update($filename,$tag){
+    $data['image'] = $filename;
+    $data['user_id'] = $this->session->userdata('user_id');
+    $this->_update_where('tag',$tag,$data);   
+}
+
+function delete($id){
+    $this->delete($id);
+}
+
+function read($tag){
+   $query = $this->get_where_custom('tag',$tag);
+   return $query;
 }
 
 }
